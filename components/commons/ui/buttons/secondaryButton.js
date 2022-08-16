@@ -3,7 +3,7 @@ import {TouchableOpacity,StyleSheet,Text} from "react-native";
 const SecondaryButton=(props)=>{
     return(
         <>
-            <TouchableOpacity style={props.large?[styles.container,styles.large]: styles.container}
+            <TouchableOpacity style={props.large?[styles.container,styles.large]: [styles.container,props.style]}
                               onPress={()=>{
                                   props.navigate(props.route)
                               }}
@@ -21,18 +21,16 @@ const styles = StyleSheet.create({
         borderRadius:5,
         justifyContent:'center',
         alignItems:'center',
-        paddingBottom:16,
-        paddingTop:16,
-        paddingLeft:65,
-        paddingRight:65,
+        paddingVertical:10,
+        paddingHorizontal:15,
     },
     large:{
         width:'100%',
     },
     text:{
-        fontWeight:'600',
+        fontWeight:'500',
         color:'#fff',
-        fontSize: 22
+        fontSize: 18
     }
 
 })
