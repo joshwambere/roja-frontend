@@ -1,8 +1,9 @@
-import {StatusBar, Text, View, StyleSheet, Pressable} from "react-native";
+import {StatusBar, Text, View, StyleSheet, Pressable, KeyboardAvoidingView} from "react-native";
 import Percentage from '../components/commons/images/percentage';
 import TextInput from '../components/commons/ui/inputs/textInput';
 import PrimaryButton from '../components/commons/ui/buttons/primaryButton';
 import common from './styles/common';
+import { scale,ScaledSheet } from 'react-native-size-matters';
 
 const Login = ({navigation})=>{
     const handleNavigate=(route)=>{
@@ -12,28 +13,37 @@ const Login = ({navigation})=>{
         <View style={styles.container}>
             <StatusBar barStyle={"dark-content"} backgroundColor={'#fff'}/>
             <View style={styles.homeBanner}>
-                <Percentage />
-                <View style={styles.helloBanner}>
-                    <Text style={common.commonStyles.appH1}>Hello Again</Text>
-                    <Text style={styles.homeP}>Have you Share of the economy here</Text>
-                </View>
-                <View style={common.commonStyles.form}>
-                    <TextInput style={common.commonStyles.input} title='Username' email/>
-                    <TextInput style={common.commonStyles.input} title='Password' secureTextEntry/>
-                </View>
-                <View style={styles.homeButtons}>
-                    <PrimaryButton title={'Login'} large navigate={handleNavigate} route={'verify'}/>
-                </View>
-                <View style={styles.registerNow}>
-                    <Text style={styles.registerText}>
-                        Not a member
-                    </Text>
-                    <Pressable onPress={()=>{navigation.navigate('register')}}>
-                        <Text style={[styles.registerText,styles.registerNowLink]}>
-                            Register now
-                        </Text>
-                    </Pressable>
-                </View>
+                <Percentage style={styles.image} />
+               <View style={styles.formSection}>
+
+                   <View style={common.commonStyles.form}>
+                       <View style={styles.helloBanner}>
+                           <Text style={[common.commonStyles.appH1,styles.localH1]}>Hello Again</Text>
+                           <Text style={styles.homeP}>Have you Share of the economy here</Text>
+                       </View>
+                       <KeyboardAvoidingView>
+                           <TextInput style={common.commonStyles.input} title='Username' email/>
+                           <TextInput style={common.commonStyles.input} title='Password' secureTextEntry/>
+
+                           <View style={styles.homeButtons}>
+                               <PrimaryButton style={styles.loginButton} title={'Login'} large navigate={handleNavigate} route={'verify'}/>
+                           </View>
+                       </KeyboardAvoidingView>
+
+                       <View style={styles.registerNow}>
+                           <Text style={styles.registerText}>
+                               Not a member
+                           </Text>
+                           <Pressable onPress={()=>{navigation.navigate('register')}}>
+                               <Text style={[styles.registerText,styles.registerNowLink]}>
+                                   Register now
+                               </Text>
+                           </Pressable>
+                       </View>
+                   </View>
+
+
+               </View>
             </View>
         </View>
     )
@@ -41,44 +51,52 @@ const Login = ({navigation})=>{
 
 export default  Login;
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     container:{
         flex:1,
-        backgroundColor:'#fff',
-
+        backgroundColor: '#fff',
     },
     homeBanner:{
-        display:'flex',
-        justifyContent:'center',
+        flexDirection:'column',
+        justifyContent:'space-evenly',
         alignItems:'center',
-        paddingTop:100,
+        flex:1,
+    },
+    localH1:{
+        paddingTop: '15@s',
+        lineHeight: '22@s',
+    },
+    image:{
+
+    },
+    formSection:{
+        flexDirection:'column',
+        alignSelf:'flex-end',
+
     },
     helloBanner:{
-      display:'flex',
         justifyContent:'center',
         alignItems:'center',
     },
     homeP:{
-        fontSize: 18,
-        lineHeight: 20,
+        fontSize: '18@s',
+        lineHeight: '20@s',
         opacity: 0.7,
-        maxWidth: 185,
+        maxWidth: '185@s',
         textAlign: "center",
-        paddingTop: 18,
+        paddingTop: '18@s',
         letterSpacing: 0.4,
 
     },
     homeButtons:{
-        width:'100%',
-        paddingRight: 34,
-        paddingLeft: 34,
+
         paddingTop: 50,
     },
     registerNow:{
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center',
-        paddingTop:58,
+        paddingTop:'8%',
 
     },
     registerNowLink:{
@@ -87,6 +105,9 @@ const styles = StyleSheet.create({
     },
     registerText:{
         fontSize:18,
+    },
+    loginButton:{
+        width:'100%',
     }
 
 

@@ -14,10 +14,8 @@ export default  SecondaryRoundButton
 const styles = StyleSheet.create({
     container:{
         backgroundColor: '#3F3D56',
-        paddingTop:15,
-        paddingBottom:15,
-        paddingRight:65,
-        paddingLeft:65,
+        paddingVertical:5,
+        paddingHorizontal:45,
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center',
@@ -25,8 +23,8 @@ const styles = StyleSheet.create({
     },
     text:{
         color:'#fff',
-        fontSize: 22,
-        fontWeight:'600',
+        fontSize: 18,
+        fontWeight:'400',
 
     }
 })
