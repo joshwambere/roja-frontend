@@ -19,10 +19,8 @@ export default  PrimaryRoundButton
 const styles = StyleSheet.create({
     container:{
         backgroundColor: '#A90A0A',
-        paddingTop:15,
-        paddingBottom:15,
-        paddingRight:65,
-        paddingLeft:65,
+        paddingVertical:10,
+        paddingHorizontal:45,
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center',
@@ -30,8 +28,8 @@ const styles = StyleSheet.create({
     },
     text:{
         color:'#fff',
-        fontSize: 22,
-        fontWeight:'600',
+        fontSize: 18,
+        fontWeight:'400',
 
     }
 })

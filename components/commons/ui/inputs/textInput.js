@@ -1,6 +1,7 @@
 import {View,TextInput, StyleSheet} from "react-native";
 import Eye from '../../images/eye'
 import At from '../../images/at'
+import {ScaledSheet } from 'react-native-size-matters';
 
 const textInput = ({style, onChangeText, title, secureTextEntry, email}) =>{
     return (
@@ -31,20 +32,15 @@ const textInput = ({style, onChangeText, title, secureTextEntry, email}) =>{
 
 export default textInput;
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     input:{
 
-       paddingLeft:15,
-       paddingRight:15,
-        paddingBottom:16,
-        paddingTop:16,
-        borderRadius:5,
-        fontWeight:'400',
-        fontSize:18,
-        color:'#19191C',
+
+        letterSpacing:1,
+        fontSize:'12@s',
         justifyContent:'center',
-        height:'100%',
-        width:'97%',
+        width:'100%',
+
     },
     wrap:{
         borderStyle:'solid',
@@ -53,7 +49,10 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
-        paddingRight:15,
+        paddingRight:'25@s',
+        paddingHorizontal:'16@s',
+        paddingVertical:'7@s',
+        borderRadius:'5@s',
 
     },
     icon:{

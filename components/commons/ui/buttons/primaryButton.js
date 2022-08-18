@@ -1,9 +1,10 @@
 import {TouchableOpacity,StyleSheet,Text} from "react-native";
 
+
 const PrimaryButton=(props)=>{
     return(
         <>
-            <TouchableOpacity style={props.large?[styles.container,styles.large]: styles.container}
+            <TouchableOpacity style={props.large?[styles.container,styles.large,props.style]: [styles.container,props.style]}
                               onPress={()=>{
                                   props.navigate(props.route)
                               }}
@@ -23,18 +24,16 @@ const styles = StyleSheet.create({
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        paddingBottom:16,
-        paddingTop:16,
-        paddingLeft:65,
-        paddingRight:65,
+        paddingVertical:10,
+        paddingHorizontal:15,
     },
     large:{
         width:'100%',
     },
     text:{
-        fontWeight:'600',
+        fontWeight:'500',
         color:'#fff',
-        fontSize: 22
+        fontSize: 18
     }
 
 })

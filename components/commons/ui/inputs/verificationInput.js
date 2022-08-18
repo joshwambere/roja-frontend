@@ -1,5 +1,6 @@
-import {TextInput, StyleSheet, View} from "react-native";
+import {TextInput, View} from "react-native";
 import {useState} from "react";
+import { ScaledSheet } from 'react-native-size-matters';
 
 const VerificationInput = (props)=>{
     const [active, setActive] = useState(false);
@@ -29,7 +30,7 @@ const VerificationInput = (props)=>{
 
 export default VerificationInput;
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     otp:{
         flexDirection:'row',
         paddingTop:50,
@@ -37,15 +38,15 @@ const styles = StyleSheet.create({
     input:{
         borderColor:'#EDEFF1',
         borderStyle:'solid',
-        borderWidth:2,
-        marginLeft:9,
-        marginRight:9,
-        borderRadius:5,
-        paddingTop:8,
-        paddingRight:16,
-        paddingLeft:16,
-        paddingBottom:8,
-        fontSize:28,
+        borderWidth:'2@s',
+        marginLeft:'9@s',
+        marginRight:'9@s',
+        borderRadius:'5@s',
+        paddingTop:'8@s',
+        paddingRight:'16@s',
+        paddingLeft:'16@s',
+        paddingBottom:'8@s',
+        fontSize:'28@s',
         fontWeight:'bold',
     },
     inputActive:{
