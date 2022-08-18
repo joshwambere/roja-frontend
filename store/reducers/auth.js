@@ -2,6 +2,7 @@ import { updateObject } from '../../shared/utility';
 import * as actionsTypes from '../actions/actionTypes';
 
 const initialReducer = {
+  verified: false,
   token: null,
   userId: null,
   name: null,
@@ -18,6 +19,7 @@ const initialReducer = {
 
 const initAuth = (state, action) => {
   return updateObject(state, {
+    verified: false,
     token: null,
     userId: null,
     name: null,
@@ -44,12 +46,11 @@ const authStart = (state, action) => {
   });
 };
 
-const authsuccess = (state, action) => {
+const registerSuccess = (state, action) => {
   return updateObject(state, {
-    token: action.token,
-    userId: action.userId,
-    name: action.name,
-    role: action.role,
+    userId: action.authData.id,
+    name: action.authData.name,
+    email: action.authData.email,
     error: null,
     loading: false,
   });
@@ -62,6 +63,21 @@ const authFail = (state, action) => {
     name: null,
     role: null,
     error: action.error,
+    loading: false,
+  });
+};
+
+const verifySuccess = (state, action) => {
+  return updateObject(state, {
+    verified: true,
+    error: null,
+    loading: false,
+  });
+};
+const loginSuccess = (state, action) => {
+  return updateObject(state, {
+    verified: true,
+    error: null,
     loading: false,
   });
 };
@@ -120,8 +136,12 @@ const reducer = (state = initialReducer, action) => {
       return initAuth(state, action);
     case actionsTypes.AUTH_START:
       return authStart(state, action);
-    case actionsTypes.AUTH_SUCCESS:
-      return authsuccess(state, action);
+    case actionsTypes.REGISTER_SUCCESS:
+      return registerSuccess(state, action);
+    case actionsTypes.VERIFY_SUCCESS:
+      return verifySuccess(state, action);
+    case actionsTypes.LOGIN_SUCCESS:
+      return loginSuccess(state, action);
     case actionsTypes.AUTH_FAIL:
       return authFail(state, action);
     case actionsTypes.AUTH_LOGOUT:

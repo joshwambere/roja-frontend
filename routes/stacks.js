@@ -5,9 +5,11 @@ import Register from "../components/register";
 import Verify from "../components/verify";
 import Onboarding from "../components/onboarding";
 import CreateCompany  from "../components/company/createCompany";
+import consoleState from '../shared/consoleState';
 
 const Stack = createNativeStackNavigator();
 function Stacks() {
+  consoleState();
     return (
         <Stack.Navigator   screenOptions={{
             headerShown: false

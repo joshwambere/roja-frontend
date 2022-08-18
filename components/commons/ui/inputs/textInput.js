@@ -3,7 +3,7 @@ import Eye from '../../images/eye'
 import At from '../../images/at'
 import {ScaledSheet } from 'react-native-size-matters';
 
-const textInput = ({style, onChangeText, title, secureTextEntry, email}) =>{
+const textInput = ({style, onChangeText, title, secureTextEntry, email, value}) =>{
     return (
         <View style={[styles.wrap,style]}>
 
@@ -13,6 +13,7 @@ const textInput = ({style, onChangeText, title, secureTextEntry, email}) =>{
                 placeholder={title}
                 secureTextEntry={secureTextEntry}
                 placeholderTextColor={'#19191C'}
+                value={value}
             />
             {
                 secureTextEntry ?

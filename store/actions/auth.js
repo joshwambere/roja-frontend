@@ -14,39 +14,48 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = (authData) => {
+export const registerSuccess = (authData) => {
   AsyncStorage.setItem(
     'userData',
     JSON.stringify({
-      token: authData.token,
       userId: authData._id,
       name: authData.name,
       role: authData.role,
     })
   );
   return {
-    type: actionTypes.AUTH_SUCCESS,
-    token: authData.token,
-    pushToken: authData.pushToken,
-    userId: authData._id,
-    name: authData.name,
-    role: authData.role,
+    type: actionTypes.REGISTER_SUCCESS,
+    authData,
   };
 };
 
 export const authFail = (error) => {
   return {
     type: actionTypes.AUTH_FAIL,
-    error: error.error,
+    error: error,
   };
 };
+
+export const verifySuccess = () => {
+  return {
+    type: actionTypes.VERIFY_SUCCESS,
+  };
+};
+
+export const loginSuccess = () => {
+  return {
+    type: actionTypes.LOGIN_SUCCESS,
+  };
+};
+
 export const authLogout = () => {
   AsyncStorage.removeItem('userData');
   return {
     type: actionTypes.AUTH_LOGOUT,
   };
 };
-export const auth = (name = '', email, password, role_id = '', isSignup) => {
+
+export const register = (name, email, password, role_id) => {
   return (dispatch) => {
     dispatch(authStart());
     let authData = {
@@ -55,18 +64,44 @@ export const auth = (name = '', email, password, role_id = '', isSignup) => {
       password,
       role_id,
     };
-    let url = '/auth/signup';
-    if (!isSignup) {
-      authData = {
-        email,
-        password,
-      };
-      url = '/auth/login';
-    }
     axios
-      .post(url, authData)
+      .post('/auth/signup', authData)
       .then((response) => {
-        dispatch(authSuccess(response.data.results));
+        dispatch(registerSuccess(response.data.data));
+      })
+      .catch((err) => {
+        dispatch(authFail(err.response.data));
+      });
+  };
+};
+
+export const verify = (otp) => {
+  return (dispatch) => {
+    dispatch(authStart());
+    axios
+      .post(`/auth/verify`, {
+        otp,
+      })
+      .then((response) => {
+        dispatch(verifySuccess(response.data));
+      })
+      .catch((err) => {
+        dispatch(authFail(err.response.data));
+      });
+  };
+};
+
+export const login = (email, password) => {
+  return (dispatch) => {
+    dispatch(authStart());
+    let authData = {
+      email,
+      password,
+    };
+    axios
+      .post('/auth/login', authData)
+      .then((response) => {
+        dispatch(loginSuccess(response.data));
       })
       .catch((err) => {
         dispatch(authFail(err.response.data));
