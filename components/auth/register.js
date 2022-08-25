@@ -6,48 +6,56 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
-import Computer from '../components/commons/images/computer';
-import common from './styles/common';
-import TextInput from './commons/ui/inputs/textInput';
-import PrimaryButton from './commons/ui/buttons/primaryButton';
+import Computer from '../commons/images/computer';
+import common from '../styles/common';
+import TextInput from '../commons/ui/inputs/textInput';
+import PrimaryButton from '../commons/ui/buttons/primaryButton';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../store/actions';
+import { register } from '../../store/actions';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import Select2 from "react-native-select-two"
+import {authFail, getRole, getRoleSuccess} from "../../store/actions/auth";
+import axios from '../../axios-base';
 
 const Register = ({ navigation }) => {
+
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('88689090-d1aa-4e51-b010-23804d70dfce');
-  const [roles, setRoles] = useState([]);
+  const [role, setRole] = useState();
+  const [rolez, setRolez] = useState([]);
+
+  const [open, setOpen] = useState(false);
 
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
   const userId = useSelector((state) => state.auth.userId);
+  const roles = useSelector((state) => state.auth.role);
 
-  //   useEffect(() => {
-  //     axios
-  //       .get('/auth/signup')
-  //       .then((response) => {
-  //         console.log(response.headers);
-  //         // dispatch(registerSuccess(response.data));
-  //       })
-  //       .catch((err) => {
-  //         console.log(err.response.data);
-  //         // dispatch(authFail(err.response.data));
-  //       });
-  //   }, [third]);
+  useEffect(() => {
+      axios
+          .get('/roles')
+          .then((response) => {
+            setRolez(response.data);
+          })
+          .catch((err) => {
+                console.error(err);
+              }
+          );
+  } , []);
+
   useEffect(() => {
     if (userId) {
       navigation.navigate('verify');
     }
   }, [userId]);
 
-  const handleRegister = () => {
-    dispatch(register(name, email, password, role));
+  const handleRegister = async () => {
+   dispatch(register(name, email, password, role));
+
   };
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -80,11 +88,23 @@ const Register = ({ navigation }) => {
                 value={email}
                 onChangeText={setEmail}
               />
-              <TextInput
-                style={common.commonStyles.inputSmall}
-                title="Role"
-                value={role}
-                onChangeText={setRole}
+
+              <Select2
+                  isSelectSingle
+                  style={styles.select}
+                  colorTheme="#A90A0A"
+                  popupTitle="Account Type"
+                  title="Account Type"
+                  data={rolez}
+                  selectButtonText={'Select'}
+                  cancelButtonText={'Cancel'}
+                  onSelect={data => {
+                    setRole( data[0] );
+                    console.log(role)
+                  }}
+                  onRemoveItem={data => {
+                    setRole( data[0] )
+                  }}
               />
               <TextInput
                 style={common.commonStyles.inputSmall}
@@ -99,7 +119,7 @@ const Register = ({ navigation }) => {
               <Text style={styles.registerP}>
                 {typeof error.message === 'string'
                   ? error.message
-                  : error.message[0]}
+                  : error.message}
               </Text>
             )}
             <View style={styles.homeButtons}>
@@ -108,7 +128,6 @@ const Register = ({ navigation }) => {
                 style={styles.registerBtn}
                 large
                 navigate={handleRegister}
-                route={'verify'}
               />
             </View>
           </KeyboardAvoidingView>
@@ -159,6 +178,12 @@ const styles = ScaledSheet.create({
     objectFit: 'container',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  select:{
+    marginTop: '10@vs',
+    paddingVertical: '10@vs',
+    fontSize: '18@vs',
+    fontWeight: 'bold',
   },
   localH1: {
     paddingTop: '40@ms',

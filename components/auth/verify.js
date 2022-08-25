@@ -1,11 +1,11 @@
 import { View, Text, StatusBar, ScrollView } from 'react-native';
-import Envelop from './commons/images/envelop';
-import common from './styles/common';
-import VerificationInput from './commons/ui/inputs/verificationInput';
-import PrimaryButton from './commons/ui/buttons/primaryButton';
+import Envelop from '../commons/images/envelop';
+import common from '../styles/common';
+import VerificationInput from '../commons/ui/inputs/verificationInput';
+import PrimaryButton from '../commons/ui/buttons/primaryButton';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useDispatch, useSelector } from 'react-redux';
-import { verify } from '../store/actions';
+import { verify } from '../../store/actions';
 import { useState, useEffect } from 'react';
 
 const Verify = ({ navigation }) => {

@@ -7,7 +7,7 @@ import { scale,ScaledSheet } from 'react-native-size-matters';
 
 const CreateCompany = ({navigation}) =>{
     const handleNavigate=(route)=>{
-        navigation.navigate(route)
+        navigation.navigate('companyDetails')
     }
     return(
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
@@ -30,7 +30,7 @@ const CreateCompany = ({navigation}) =>{
                         <TextInput style={common.commonStyles.input} title={'ShareHolders'} />
                     </View>
                     <View style={styles.homeButtons}>
-                        <PrimaryButton style={styles.button} title={'Continue'} large navigate={handleNavigate} route={'pitch'}/>
+                        <PrimaryButton style={styles.button} title={'Continue'} large navigate={handleNavigate} route={'companyDetails'}/>
                     </View>
                 </KeyboardAvoidingView>
             </View>

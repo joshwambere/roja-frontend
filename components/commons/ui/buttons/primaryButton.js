@@ -4,11 +4,7 @@ import {TouchableOpacity,StyleSheet,Text} from "react-native";
 const PrimaryButton=(props)=>{
     return(
         <>
-            <TouchableOpacity style={props.large?[styles.container,styles.large,props.style]: [styles.container,props.style]}
-                              onPress={()=>{
-                                  props.navigate(props.route)
-                              }}
-            >
+            <TouchableOpacity style={props.large?[styles.container,styles.large,props.style]: [styles.container,props.style]} onPress={props.navigate}>
                 <Text style={styles.text}>{props.title}</Text>
             </TouchableOpacity>
         </>

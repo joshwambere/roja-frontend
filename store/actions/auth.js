@@ -18,9 +18,9 @@ export const registerSuccess = (authData) => {
   AsyncStorage.setItem(
     'userData',
     JSON.stringify({
-      userId: authData._id,
+      userId: authData.id,
       name: authData.name,
-      role: authData.role,
+      role: authData.role_id,
     })
   );
   return {
@@ -42,7 +42,13 @@ export const verifySuccess = () => {
   };
 };
 
-export const loginSuccess = () => {
+export const loginSuccess = (authData) => {
+  AsyncStorage.setItem(
+      'loginData',
+      JSON.stringify({
+        token: authData.tokens,
+      })
+  );
   return {
     type: actionTypes.LOGIN_SUCCESS,
   };
@@ -104,6 +110,7 @@ export const login = (email, password) => {
         dispatch(loginSuccess(response.data));
       })
       .catch((err) => {
+
         dispatch(authFail(err.response.data));
       });
   };
@@ -115,11 +122,32 @@ export const initAuth = () => {
   };
 };
 
+export const getRole = ()=>{
+  return (dispatch) => {
+    axios
+      .get('/roles')
+      .then((response) => {
+        dispatch(getRoleSuccess(response.data));
+      })
+      .catch((err) => {
+        dispatch(authFail(err.response));
+       }
+      );
+  }
+}
+
 export const logout = () => {
   return (dispatch) => {
     dispatch(authLogout());
   };
 };
+
+export const getRoleSuccess = (role) => {
+  return {
+    type: actionTypes.GET_ROLE_SUCCESS,
+    role,
+  };
+}
 
 export const resetPasswordStart = () => {
   return {

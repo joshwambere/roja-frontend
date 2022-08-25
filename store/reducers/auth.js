@@ -79,6 +79,7 @@ const loginSuccess = (state, action) => {
     verified: true,
     error: null,
     loading: false,
+    role: action.authData.role_id,
   });
 };
 

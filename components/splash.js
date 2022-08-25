@@ -5,8 +5,8 @@ import SecondaryButton from "./commons/ui/buttons/secondaryButton";
 import {styles} from "./styles/splash.style";
 
 const Splash=({navigation})=>{
-    const handleNavigate=(route)=>{
-        navigation.navigate(route)
+    const handelRegister=()=>{
+        navigation.navigate('register')
     }
     return(
 
@@ -21,8 +21,8 @@ const Splash=({navigation})=>{
                         <Text style={styles.splashP}>Explore all of the most exiting  Investment opportunities, based on your terms and choice</Text>
                     </View>
                     <View style={styles.bottomBtns}>
-                        <PrimaryButton style={localStyles.localBtn} title='Register' type='smallRed' navigate={handleNavigate} route={'register'}/>
-                        <SecondaryButton style={localStyles.localBtn} title='Login' type='smallDark' navigate={handleNavigate} route={'login'} />
+                        <PrimaryButton style={localStyles.localBtn} title='Register' type='smallRed' navigate={handelRegister} route={'register'}/>
+                        <SecondaryButton style={localStyles.localBtn} title='Login' type='smallDark' navigate={handelRegister} route={'login'} />
                     </View>
                 </View>
             </View>

@@ -7,8 +7,9 @@ import authReducer from './store/reducers/auth';
 import { applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import BottomTabs from "./routes/bottomTabs";
 
-const Stack = createNativeStackNavigator();
+
 
 const rootReducer = combineReducers({
   auth: authReducer,

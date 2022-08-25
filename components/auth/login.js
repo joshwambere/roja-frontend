@@ -6,14 +6,17 @@ import {
   Pressable,
   KeyboardAvoidingView,
 } from 'react-native';
-import Percentage from '../components/commons/images/percentage';
-import TextInput from '../components/commons/ui/inputs/textInput';
-import PrimaryButton from '../components/commons/ui/buttons/primaryButton';
-import common from './styles/common';
+import Percentage from '../commons/images/percentage';
+import TextInput from '../commons/ui/inputs/textInput';
+import PrimaryButton from '../commons/ui/buttons/primaryButton';
+import common from '../styles/common';
 import { scale, ScaledSheet } from 'react-native-size-matters';
 import { useState, useEffect } from 'react';
-import { login } from '../store/actions';
+import { login } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import jwt_decode from "jwt-decode";
+
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -22,11 +25,24 @@ const Login = ({ navigation }) => {
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
   const verified = useSelector((state) => state.auth.verified);
-  const handleLogin = (route) => {
+
+
+  const handleLogin = async() => {
+
     dispatch(login(email, password));
+
+
+
+
   };
-  useEffect(() => {
-    if (verified) {
+  useEffect(async () => {
+    const loginData = await  AsyncStorage.getItem('loginData');
+    const token = JSON.parse(loginData)
+    const role = jwt_decode(token.token?.refreshToken);
+
+    if (verified && role.role === 'ENTREPRENEUR') {
+      navigation.navigate('register');
+    }else{
       navigation.navigate('onboarding');
     }
   }, [verified]);
@@ -65,7 +81,7 @@ const Login = ({ navigation }) => {
                 <Text style={styles.verifyText}>
                   {typeof error.message === 'string'
                     ? error.message
-                    : error.message[0]}
+                    : error.message}
                 </Text>
               )}
 
@@ -75,7 +91,6 @@ const Login = ({ navigation }) => {
                   title={'Login'}
                   large
                   navigate={handleLogin}
-                  route={'verify'}
                 />
               </View>
             </KeyboardAvoidingView>

@@ -4,9 +4,7 @@ const SecondaryButton=(props)=>{
     return(
         <>
             <TouchableOpacity style={props.large?[styles.container,styles.large]: [styles.container,props.style]}
-                              onPress={()=>{
-                                  props.navigate(props.route)
-                              }}
+                              onPress={props.navigate}
             >
                 <Text style={styles.text}>{props.title}</Text>
             </TouchableOpacity>
