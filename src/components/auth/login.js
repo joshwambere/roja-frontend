@@ -2,20 +2,20 @@ import {
   StatusBar,
   Text,
   View,
-  StyleSheet,
   Pressable,
   KeyboardAvoidingView,
+  ActivityIndicator
 } from 'react-native';
 import Percentage from '../commons/images/percentage';
 import TextInput from '../commons/ui/inputs/textInput';
 import PrimaryButton from '../commons/ui/buttons/primaryButton';
 import common from '../styles/common';
-import { scale, ScaledSheet } from 'react-native-size-matters';
-import { useState, useEffect } from 'react';
+import { ScaledSheet } from 'react-native-size-matters';
+import { useState } from 'react';
 import { login } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import jwt_decode from "jwt-decode";
+import {getUserCompany} from "../../store/actions";
+import {useForm,Controller} from "react-hook-form";
 
 
 const Login = ({ navigation }) => {
@@ -25,27 +25,32 @@ const Login = ({ navigation }) => {
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
   const verified = useSelector((state) => state.auth.verified);
-
-
-  const handleLogin = async() => {
-
-    dispatch(login(email, password));
-
-
-
-
-  };
-  useEffect(async () => {
-    const loginData = await  AsyncStorage.getItem('loginData');
-    const token = JSON.parse(loginData)
-    const role = jwt_decode(token.token?.refreshToken);
-
-    if (verified && role.role === 'ENTREPRENEUR') {
-      navigation.navigate('register');
-    }else{
-      navigation.navigate('onboarding');
+  const role = useSelector((state) => state.auth.role);
+  const company = useSelector((state) => state.company.company);
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      email: '',
+      password: ''
     }
-  }, [verified]);
+  });
+
+
+  const handleLogin = async({email, password}) => {
+
+    dispatch(login(email, password))
+      if (verified){
+        if (role === 'ENTREPRENEUR') {
+          dispatch(getUserCompany())
+          company? navigation.navigate('companyHome') : navigation.navigate('company')
+        }
+        if (role === 'INVESTOR') {
+          navigation.navigate('feed');
+        }
+      }
+  };
+
+
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
@@ -53,6 +58,7 @@ const Login = ({ navigation }) => {
         <Percentage style={styles.image} />
         <View style={styles.formSection}>
           <View style={common.commonStyles.form}>
+
             <View style={styles.helloBanner}>
               <Text style={[common.commonStyles.appH1, styles.localH1]}>
                 Hello Again
@@ -62,23 +68,56 @@ const Login = ({ navigation }) => {
               </Text>
             </View>
             <KeyboardAvoidingView>
-              <TextInput
-                style={common.commonStyles.input}
-                title="Username"
-                email
-                value={email}
-                onChangeText={setEmail}
+              <Controller
+                  control={control}
+                  rules={{
+                    required: {
+                        value: true,
+                        message: 'Email is required'
+                    },
+                    pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                        message: 'Invalid email address'
+                    }
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                    style={common.commonStyles.input}
+                    title="Username"
+                    email
+                    value={value}
+                    onChangeText={onChange}
+
+                    />
+                  )}
+                  name="email"
               />
-              <TextInput
-                style={common.commonStyles.input}
-                title="Password"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
+              {errors.email && <Text style={styles.errors}>{errors.email.message}</Text>}
+
+              <Controller
+                  control={control}
+                  rules={{
+                    required: {
+                        value: true,
+                        message: 'Password is required'
+                    },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                      <TextInput
+                          style={common.commonStyles.input}
+                          title="Password"
+                          secureTextEntry
+                          value={value}
+                          onChangeText={onChange}
+                      />
+                  )}
+                  name="password"
               />
-              {loading && <Text style={styles.verifyText}>loading...</Text>}
+              {errors.password && <Text style={styles.errors}>{errors.password.message}</Text>}
+
+              {loading &&  <ActivityIndicator style={styles.loader} size="small" color="#A90A0A" />}
               {error && (
-                <Text style={styles.verifyText}>
+                <Text style={styles.errors}>
                   {typeof error.message === 'string'
                     ? error.message
                     : error.message}
@@ -90,7 +129,7 @@ const Login = ({ navigation }) => {
                   style={styles.loginButton}
                   title={'Login'}
                   large
-                  navigate={handleLogin}
+                  navigate={handleSubmit(handleLogin)}
                 />
               </View>
             </KeyboardAvoidingView>
@@ -161,6 +200,14 @@ const styles = ScaledSheet.create({
   registerNowLink: {
     color: '#A90A0A',
     paddingLeft: 5,
+  },
+  errors:{
+    color: '#A90A0A',
+    paddingTop: '5@s',
+    paddingLeft: '5@s',
+  },
+  loader:{
+    marginTop: '5@s',
   },
   registerText: {
     fontSize: 18,

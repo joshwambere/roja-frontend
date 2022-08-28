@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Home from "../components/company/Home";
+import CreateRound from "../components/rounds/createRound";
 const Tab = createBottomTabNavigator();
 function BottomTabs() {
   return (
@@ -39,7 +40,7 @@ function BottomTabs() {
 
       >
           <Tab.Screen name="browse" component={Home} />
-          <Tab.Screen name="round" component={'d'} />
+          <Tab.Screen name="round" component={CreateRound} />
           <Tab.Screen name="profile" component={'d'} />
 
       </Tab.Navigator>

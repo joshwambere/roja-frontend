@@ -1,19 +1,15 @@
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Stacks from './routes/stacks';
-import { combineReducers, createStore } from 'redux';
-import authReducer from './store/reducers/auth';
+import Stacks from './src/routes/stacks';
+import { createStore } from 'redux';
+import rootReducer from './src/store/reducers/rootReducer';
 import { applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import BottomTabs from "./routes/bottomTabs";
 
 
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-});
+
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 

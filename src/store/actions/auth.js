@@ -1,6 +1,7 @@
-import axios from '../../axios-base';
+import axios from '../../../axios-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as actionTypes from './actionTypes';
+import jwt_decode from "jwt-decode";
 
 export const initAuthReduxValues = () => {
   return {
@@ -32,7 +33,7 @@ export const registerSuccess = (authData) => {
 export const authFail = (error) => {
   return {
     type: actionTypes.AUTH_FAIL,
-    error: error,
+    error: error.data,
   };
 };
 
@@ -51,6 +52,7 @@ export const loginSuccess = (authData) => {
   );
   return {
     type: actionTypes.LOGIN_SUCCESS,
+    role: jwt_decode(authData.tokens?.refreshToken).role,
   };
 };
 
@@ -76,7 +78,7 @@ export const register = (name, email, password, role_id) => {
         dispatch(registerSuccess(response.data.data));
       })
       .catch((err) => {
-        dispatch(authFail(err.response.data));
+        dispatch(authFail(err.response));
       });
   };
 };
@@ -92,7 +94,8 @@ export const verify = (otp) => {
         dispatch(verifySuccess(response.data));
       })
       .catch((err) => {
-        dispatch(authFail(err.response.data));
+
+        dispatch(authFail(err.response));
       });
   };
 };
@@ -111,7 +114,7 @@ export const login = (email, password) => {
       })
       .catch((err) => {
 
-        dispatch(authFail(err.response.data));
+        dispatch(authFail(err.response));
       });
   };
 };
@@ -130,6 +133,7 @@ export const getRole = ()=>{
         dispatch(getRoleSuccess(response.data));
       })
       .catch((err) => {
+        console.log(err)
         dispatch(authFail(err.response));
        }
       );

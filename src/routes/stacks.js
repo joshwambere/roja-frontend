@@ -10,6 +10,11 @@ import CompanyDetails from "../components/company/companyDetails";
 import SetSplash from "../components/set/setSplash";
 import Home from "../components/company/Home";
 import BottomTabs from "./bottomTabs";
+import roundsHome from "../components/rounds/Home";
+import CreateRound from "../components/rounds/createRound";
+import CreatePitch from "../components/pitch/createPitch";
+import homeFeed from "../components/feed/home";
+
 
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +26,7 @@ function Stacks() {
         }}>
             <Stack.Screen name="Home" component={Splash} />
             <Stack.Screen name="login" component={Login} />
+            <Stack.Screen name='feed' component={homeFeed} />
             <Stack.Screen name="register" component={Register} />
             <Stack.Screen name="verify" component={Verify} />
             <Stack.Screen name="onboarding" component={Onboarding} />
@@ -29,6 +35,9 @@ function Stacks() {
             <Stack.Screen name="set" component={SetSplash} />
             <Stack.Screen name="companyHome" component={BottomTabs} />
             <Stack.Screen name="profile" component={Home} />
+            <Stack.Screen name="rounds" component={roundsHome} />
+            <Stack.Screen name="createRound" component={CreateRound} />
+            <Stack.Screen name='createPitch' component={CreatePitch} />
 
         </Stack.Navigator>
     );

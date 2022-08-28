@@ -78,8 +78,8 @@ const loginSuccess = (state, action) => {
   return updateObject(state, {
     verified: true,
     error: null,
-    loading: false,
-    role: action.authData.role_id,
+    role: action.role,
+    loading: false
   });
 };
 

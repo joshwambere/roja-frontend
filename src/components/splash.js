@@ -1,13 +1,43 @@
-import {View, StyleSheet, Text, StatusBar, ScrollView} from "react-native";
+import {View, StyleSheet, Text, StatusBar} from "react-native";
 import SplashImage from './commons/images/splashImage'
 import PrimaryButton from "./commons/ui/buttons/primaryButton";
 import SecondaryButton from "./commons/ui/buttons/secondaryButton";
 import {styles} from "./styles/splash.style";
+import {useEffect} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import jwt_decode from "jwt-decode";
+import {useSelector} from "react-redux";
 
 const Splash=({navigation})=>{
+    const verified = useSelector((state) => state.auth.verified);
+
     const handelRegister=()=>{
         navigation.navigate('register')
     }
+    useEffect(()=>{
+        AsyncStorage.clear();
+    },[])
+    useEffect( () => {
+        const getToken = async() => {
+            const loginData = await  AsyncStorage.getItem('loginData');
+            if (loginData) {
+                const token = JSON.parse(loginData)
+                const role = jwt_decode(token.token?.refreshToken);
+
+                if (verified && role.role === 'ENTREPRENEUR') {
+                    navigation.navigate('companyHome');
+                }
+                if(verified && role.role === 'INVESTOR'){
+                    navigation.navigate('onboarding');
+                }else{
+                    navigation.navigate('register');
+                }
+            }
+
+        }
+        getToken()
+    },[]);
+
     return(
 
             <View style={styles.container}>

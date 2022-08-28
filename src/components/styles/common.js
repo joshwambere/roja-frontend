@@ -52,6 +52,16 @@ const commonStyles =ScaledSheet.create({
         justifyContent:'center',
         alignItems:'center',
     },
+    profile:{
+        width:'45@s',
+        height:'45@s',
+        borderRadius:45,
+        borderWidth:4,
+        borderColor:'#A90A0A',
+        alignItems:'center',
+        justifyContent:'center',
+        borderStyle:'dashed',
+    },
 
 
 
