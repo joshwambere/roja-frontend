@@ -1,37 +1,35 @@
 import {ScaledSheet} from "react-native-size-matters";
 import {Text, View} from "react-native";
-import Up from "../../images/up";
 import {convertDate, convertNumbers} from "../../../../shared/utility";
+import Google from "../../images/google";
 
 
-const Round = (round) => {
+const Raising = () => {
     return (
         <View style={styles.round}>
             <View style={styles.seedHolder}>
                 <View style={styles.iconPloceholder}>
-                    <Up/>
+                    <Google/>
                 </View>
                 <View style={styles.seedDate}>
-                    <Text style={styles.roundText}>{round.round.name}</Text>
-                    <Text style={styles.dateText}>{convertDate(round.round.createdAt)}</Text>
+                    <Text style={styles.roundText}>Google</Text>
+                    <Text style={styles.dateText}>google is raising to upgrade existing system</Text>
                 </View>
-            </View>
-            <View>
-                <Text style={styles.roundTextAmount}>{round.round.status==='PENDING'?'Active': convertNumbers(round.round.amount)}</Text>
             </View>
         </View>
     )
 }
 
-export default Round;
+export default Raising;
 
 
 const styles = ScaledSheet.create({
     round:{
-       borderRadius:'10@s',
-       width:'100%',
-       borderWidth:'1@s',
-       borderColor:'#EDEFF1',
+        borderRadius:'10@s',
+        width:'100%',
+        borderWidth:'1@s',
+        backgroundColor:'#F4FBFF',
+        borderColor:'#EDEFF1',
         flexDirection:'row',
         minHeight:'70@s',
         justifyContent:'space-between',
@@ -45,14 +43,14 @@ const styles = ScaledSheet.create({
         opacity:.5,
     },
     seedHolder:{
-      flexDirection:'row',
+        flexDirection:'row',
         justifyContent:'space-around',
     },
     seedDate:{
         paddingHorizontal:'20@s',
     },
     iconPloceholder:{
-        backgroundColor:'rgba(169, 10, 10, 0.17)',
+        backgroundColor:'#F4FBFF',
         width:'40@s',
         height:'40@s',
         borderRadius:'20@s',

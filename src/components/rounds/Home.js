@@ -1,44 +1,61 @@
-import {Pressable, StatusBar, Text, TouchableOpacity, View} from "react-native";
+import {Pressable, ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
 import common from "../styles/common";
 import Google from "../commons/images/google";
 import {ScaledSheet} from "react-native-size-matters";
 import Round from "../commons/ui/cards/round";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {getRounds} from "../../store/actions/round";
+import {convertDate} from "../../shared/utility";
+
+
 
 const Home = ({navigation}) => {
+    const dispatch = useDispatch();
+    const rounds = useSelector((state) => state.round.rounds);
+
     const handelNavigate = () => {
         navigation.navigate('createRound');
     }
+    useEffect(() => {
+        dispatch(getRounds());
+
+    } , []);
     return(
-        <View style={styles.container}>
-            <StatusBar barStyle={"dark-content"} backgroundColor={'#fff'}/>
-            <View style={styles.header}>
-                <Text style={styles.title}>Google Inc</Text>
-                <View style={common.commonStyles.profile}>
-                    <Google/>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View style={styles.container}>
+                <StatusBar barStyle={"dark-content"} backgroundColor={'#fff'}/>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Google Inc</Text>
+                    <View style={common.commonStyles.profile}>
+                        <Google/>
+                    </View>
+                </View>
+                <View style={styles.banner}>
+                    <View style={styles.bannerHeader}>
+                        <Text style={styles.bannerHeaderTitle}>Valued {rounds&&  convertDate(rounds[rounds.length-1].createdAt)}</Text>
+                        <TouchableOpacity style={styles.roundBtn} onPress={handelNavigate}>
+                            <Text style={styles.roundText}>New Round</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <Text style={styles.bannerText}>RWF {rounds&& rounds[rounds.length-1].valuation}</Text>
+                    </View>
+                </View>
+                <View style={styles.cards}>
+                    <Text style={styles.recents}>Recent Rounds</Text>
+                    <View style={styles.round}>
+                        {
+                            rounds&&rounds.map((round, index) => {
+                                return(
+                                    <Round key={index} round={round}/>
+                                )
+                            })
+                        }
+                    </View>
                 </View>
             </View>
-            <View style={styles.banner}>
-                <View style={styles.bannerHeader}>
-                    <Text style={styles.bannerHeaderTitle}>Valued June 2022</Text>
-                    <TouchableOpacity style={styles.roundBtn} onPress={handelNavigate}>
-                        <Text style={styles.roundText}>New Round</Text>
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    <Text style={styles.bannerText}>RWF 220,200,000</Text>
-                </View>
-            </View>
-            <View style={styles.cards}>
-                <Text style={styles.recents}>Recent Rounds</Text>
-                <View style={styles.round}>
-                    <Round />
-                    <Round />
-                    <Round />
-                    <Round />
-                    <Round />
-                </View>
-            </View>
-        </View>
+        </ScrollView>
     )
 };
 export default Home;

@@ -14,6 +14,8 @@ import roundsHome from "../components/rounds/Home";
 import CreateRound from "../components/rounds/createRound";
 import CreatePitch from "../components/pitch/createPitch";
 import homeFeed from "../components/feed/home";
+import homeOffers from "../components/offers/home";
+import InvestorTabs from "./investorTabs";
 
 
 
@@ -38,6 +40,8 @@ function Stacks() {
             <Stack.Screen name="rounds" component={roundsHome} />
             <Stack.Screen name="createRound" component={CreateRound} />
             <Stack.Screen name='createPitch' component={CreatePitch} />
+            <Stack.Screen name='offers' component={homeOffers} />
+            <Stack.Screen name='investorHome' component={InvestorTabs} />
 
         </Stack.Navigator>
     );

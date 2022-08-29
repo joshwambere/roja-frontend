@@ -44,7 +44,7 @@ const Login = ({ navigation }) => {
           company? navigation.navigate('companyHome') : navigation.navigate('company')
         }
         if (role === 'INVESTOR') {
-          navigation.navigate('feed');
+          navigation.navigate('investorHome');
         }
       }
   };

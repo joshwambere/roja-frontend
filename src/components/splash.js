@@ -14,9 +14,6 @@ const Splash=({navigation})=>{
     const handelRegister=()=>{
         navigation.navigate('register')
     }
-    useEffect(()=>{
-        AsyncStorage.clear();
-    },[])
     useEffect( () => {
         const getToken = async() => {
             const loginData = await  AsyncStorage.getItem('loginData');
@@ -28,7 +25,7 @@ const Splash=({navigation})=>{
                     navigation.navigate('companyHome');
                 }
                 if(verified && role.role === 'INVESTOR'){
-                    navigation.navigate('onboarding');
+                    navigation.navigate('investorHome');
                 }else{
                     navigation.navigate('register');
                 }

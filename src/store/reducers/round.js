@@ -1,5 +1,6 @@
 import { updateObject } from '../../shared/utility';
 import * as actionsTypes from '../actions/actionTypes';
+import {getRounds} from "../actions/round";
 
 const initialReducer = {
     round: null,
@@ -31,6 +32,14 @@ const createRoundSucess =(state, action)=>{
     })
 }
 
+const getRoundsSuccess =(state, action)=> {
+return updateObject(state, {
+    rounds: action.rounds,
+    loading: false,
+    error: null,
+})
+}
+
 
 
 const reducer = (state = initialReducer, action) => {
@@ -39,6 +48,8 @@ const reducer = (state = initialReducer, action) => {
             return createRoundSucess(state, action);
         case actionsTypes.AUTH_START:
             return roundStart(state, action);
+        case actionsTypes.GET_ROUNDS_SUCCESS:
+            return getRoundsSuccess(state, action);
         default:
             return state;
     }

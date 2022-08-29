@@ -24,8 +24,6 @@ export const createRound = ({valuation,amount,type,description}) => {
                 dispatch(createRoundSuccess(response.data));
             })
             .catch((err) => {
-                console.log('**********')
-                console.log(err);
                 dispatch(createRoundFail(err.response));
             });
     }
@@ -40,5 +38,31 @@ export const createRoundFail = (error) => {
     return {
         type: actionTypes.CREATE_ROUND_FAIL,
         error:error.data
+    }
+}
+
+export const getRounds = () => {
+    return async (dispatch)=>{
+        dispatch(roundStart());
+        axios
+            .get(`/rounds`,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
+            .then((response) => {
+                console.log('++++++++++++++++++++++++++')
+                console.log(response.data)
+                dispatch(getRoundsSuccess(response.data));
+            })
+            .catch((err) => {
+                console.log('++++++++++++++++++++++++++')
+                console.log(err)
+                dispatch(createRoundFail(err.response));
+            });
+    }
+}
+
+
+export const getRoundsSuccess = (rounds) => {
+    return {
+        type: actionTypes.GET_ROUNDS_SUCCESS,
+        rounds: rounds?rounds:null,
     }
 }

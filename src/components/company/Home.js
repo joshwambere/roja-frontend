@@ -37,6 +37,11 @@ const Home = ({navigation}) => {
                         <Text style={styles.roundText}>Investment Rounds</Text>
 
                 </Pressable>
+                <Pressable style={styles.pressBtn} onPress={() => navigation.navigate('offers')}>
+                    <Round />
+                    <Text style={styles.roundText}>Offers</Text>
+
+                </Pressable>
             </View>
             </View>
         </View>
