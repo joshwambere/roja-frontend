@@ -1,8 +1,17 @@
 import {Pressable, ScrollView, Text, View} from "react-native";
 import Raising from "../commons/ui/cards/raising";
 import {ScaledSheet} from "react-native-size-matters";
+import {useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {getPendingRounds} from "../../store/actions/round";
 
-const Home =()=>{
+
+const Home =({navigation})=>{
+    const dispatch = useDispatch();
+    const rounds = useSelector((state)=>state.round.rounds);
+    useEffect(()=>{
+        dispatch(getPendingRounds());
+    },[])
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor:'#fff' }}>
 
@@ -14,9 +23,16 @@ const Home =()=>{
                     </View>
                     <Text style={styles.raising}>Who is raising</Text>
                 </View>
-                <Pressable>
-                    <Raising/>
-                </Pressable>
+                {
+                    rounds && rounds.map((item,index)=>{
+                        return(
+                            <Pressable key={index} onPress={()=> navigation.navigate('bid',{round:item})}>
+                                <Raising round={item}/>
+                            </Pressable>
+                        )
+                    })
+                }
+
 
             </View>
         </ScrollView>

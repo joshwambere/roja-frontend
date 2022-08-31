@@ -52,6 +52,8 @@ export const loginSuccess = (authData) => {
   );
   return {
     type: actionTypes.LOGIN_SUCCESS,
+    token: authData.tokens.refreshToken,
+    userId: jwt_decode(authData.tokens?.refreshToken).id,
     role: jwt_decode(authData.tokens?.refreshToken).role,
   };
 };

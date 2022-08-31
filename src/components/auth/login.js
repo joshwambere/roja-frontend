@@ -11,7 +11,7 @@ import TextInput from '../commons/ui/inputs/textInput';
 import PrimaryButton from '../commons/ui/buttons/primaryButton';
 import common from '../styles/common';
 import { ScaledSheet } from 'react-native-size-matters';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { login } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import {getUserCompany} from "../../store/actions";
@@ -36,18 +36,21 @@ const Login = ({ navigation }) => {
 
 
   const handleLogin = async({email, password}) => {
-
     dispatch(login(email, password))
-      if (verified){
-        if (role === 'ENTREPRENEUR') {
-          dispatch(getUserCompany())
-          company? navigation.navigate('companyHome') : navigation.navigate('company')
-        }
-        if (role === 'INVESTOR') {
-          navigation.navigate('investorHome');
-        }
-      }
   };
+  useEffect(() => {
+    dispatch(getUserCompany());
+  },[role==='ENTREPRENEUR']);
+
+  useEffect(() => {
+      if (role === 'ENTREPRENEUR') {
+        company? navigation.navigate('companyHome') : navigation.navigate('onboarding')
+      }
+      if (role === 'INVESTOR') {
+        navigation.navigate('investorHome');
+      }
+  }, [company]);
+
 
 
 
@@ -55,7 +58,7 @@ const Login = ({ navigation }) => {
     <View style={styles.container}>
       <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
       <View style={styles.homeBanner}>
-        <Percentage style={styles.image} />
+        <Percentage />
         <View style={styles.formSection}>
           <View style={common.commonStyles.form}>
 
@@ -159,25 +162,26 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   homeBanner: {
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    flex: 1,
   },
   localH1: {
-    paddingTop: '15@s',
+    paddingVertical: '15@s',
     lineHeight: '22@s',
   },
-  image: {},
   formSection: {
     flexDirection: 'column',
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
   },
   helloBanner: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: '20@s',
   },
   homeP: {
     fontSize: '18@s',

@@ -79,6 +79,8 @@ const loginSuccess = (state, action) => {
     verified: true,
     error: null,
     role: action.role,
+    token: action.token,
+    userId: action.userId,
     loading: false
   });
 };

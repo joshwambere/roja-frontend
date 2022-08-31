@@ -16,6 +16,7 @@ import CreatePitch from "../components/pitch/createPitch";
 import homeFeed from "../components/feed/home";
 import homeOffers from "../components/offers/home";
 import InvestorTabs from "./investorTabs";
+import Bid from "../components/investors/bid";
 
 
 
@@ -42,6 +43,7 @@ function Stacks() {
             <Stack.Screen name='createPitch' component={CreatePitch} />
             <Stack.Screen name='offers' component={homeOffers} />
             <Stack.Screen name='investorHome' component={InvestorTabs} />
+            <Stack.Screen name='bid' component={Bid} />
 
         </Stack.Navigator>
     );

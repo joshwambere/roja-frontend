@@ -30,14 +30,14 @@ const Home = ({navigation}) => {
                         </View>
                     </Pressable>
                 </View>
-                <View style={styles.rightGrid}>
-                <Pressable style={styles.pressBtn} onPress={() => navigation.navigate('rounds')}>
+                <View>
+                <Pressable style={[styles.pressBtn,styles.offers]} onPress={() => navigation.navigate('rounds')}>
 
                         <Round />
                         <Text style={styles.roundText}>Investment Rounds</Text>
 
                 </Pressable>
-                <Pressable style={styles.pressBtn} onPress={() => navigation.navigate('offers')}>
+                <Pressable style={[styles.pressBtn, styles.offers]} onPress={() => navigation.navigate('offers')}>
                     <Round />
                     <Text style={styles.roundText}>Offers</Text>
 
@@ -80,6 +80,21 @@ const styles = ScaledSheet.create({
         flex:.6,
         marginRight:'10@s',
     },
+    offers:{
+        marginTop:'10@s',
+        backgroundColor:'#F4FBFF',
+        alignItems:'center',
+        justifyContent:'center',
+        paddingVertical:'10@s',
+        paddingHorizontal:'10@s',
+        borderRadius:10,
+        shadowColor:'rgba(0, 0, 0, 0.25)',
+        shadowOffset:{width:0,height:1.5},
+        shadowOpacity:0.2,
+        shadowRadius:0,
+        elevation: 6,
+        width:'100%'
+    },
     rightGrid:{
         backgroundColor:'#F4FBFF',
         alignItems:'center',
@@ -92,6 +107,7 @@ const styles = ScaledSheet.create({
         shadowOpacity:0.2,
         shadowRadius:0,
         elevation: 6,
+        gap:'10@s',
     },
     roundText:{
         fontSize:'15@s',

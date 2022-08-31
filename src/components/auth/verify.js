@@ -20,7 +20,7 @@ const Verify = ({ navigation }) => {
   };
   useEffect(() => {
     if (verified) {
-      navigation.navigate('onboarding');
+      navigation.navigate('login');
     }
   }, [verified]);
 

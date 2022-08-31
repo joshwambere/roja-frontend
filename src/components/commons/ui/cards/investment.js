@@ -1,38 +1,35 @@
 import {ScaledSheet} from "react-native-size-matters";
-import {Text, TouchableOpacity, View} from "react-native";
-import Up from "../../images/up";
-import {convertDate, convertNumbers} from "../../../../shared/utility";
+import {Text, View} from "react-native";
+import {convertNumbers} from "../../../../shared/utility";
+import Google from "../../images/google";
 
 
-const Round = () => {
+const Investment = ({offer}) => {
+    console.log(offer)
     return (
         <View style={styles.round}>
             <View style={styles.seedHolder}>
                 <View style={styles.iconPloceholder}>
-                    <Up/>
+                    <Google/>
                 </View>
-                <View style={styles.seedDate}>
-                    <Text style={styles.roundText}>John doe</Text>
-                    <View style={styles.valuation}>
-                        <Text style={styles.dateText}>{convertNumbers(120000000)}</Text>
+                <View style={styles.company}>
+                    <Text style={styles.companyName}>{offer.round_id.company_id.name}</Text>
+                </View>
 
-                        <Text style={[styles.dateTextValuation,styles.dateText]}>{convertNumbers(200000000)}</Text>
-                    </View>
-                </View>
             </View>
             <View>
-                <TouchableOpacity style={styles.roundBtnAccept}>
-                    <Text style={styles.acceptText}>Accept</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.roundBtnReject}>
-                    <Text style={styles.rejectText}>Reject</Text>
-                </TouchableOpacity>
+                <View style={styles.seedDate}>
+                    <View style={styles.valuation}>
+                        <Text style={styles.dateText}>Rwf {convertNumbers(offer.amount)}</Text>
+                        <Text style={[styles.dateTextValuation,styles.dateText]}>{(offer.amount/offer.valuation).toFixed(3)} %</Text>
+                    </View>
+                </View>
             </View>
         </View>
     )
 }
 
-export default Round;
+export default Investment;
 
 
 const styles = ScaledSheet.create({
@@ -40,6 +37,7 @@ const styles = ScaledSheet.create({
         borderRadius:'10@s',
         width:'100%',
         borderWidth:'1@s',
+        backgroundColor:'#F4FBFF',
         borderColor:'#EDEFF1',
         flexDirection:'row',
         minHeight:'70@s',
@@ -49,8 +47,7 @@ const styles = ScaledSheet.create({
         marginBottom:'10@s',
     },
     dateText:{
-        fontSize:'12@s',
-        opacity:.8,
+        fontSize:'15@s',
         marginTop:'5@s',
         fontWeight:'500',
     },
@@ -62,7 +59,7 @@ const styles = ScaledSheet.create({
         paddingHorizontal:'20@s',
     },
     iconPloceholder:{
-        backgroundColor:'rgba(169, 10, 10, 0.17)',
+        backgroundColor:'#F4FBFF',
         width:'40@s',
         height:'40@s',
         borderRadius:'20@s',
@@ -74,19 +71,28 @@ const styles = ScaledSheet.create({
         fontWeight:'500',
         textTransform:'capitalize',
     },
+    company:{
+        justifyContent:'center',
+    },
+    companyName:{
+        paddingLeft:'10@s',
+        fontSize:'15@s',
+        fontWeight:'500',
+        color:'#1E1E1E',
+    },
     roundTextAmount:{
         fontSize:'17@s',
         fontWeight:'500',
         color:'#A90A0A',
     },
     valuation:{
-      flexDirection:'row',
+        alignItems:'flex-end',
     },
     roundBtnAccept:{
         backgroundColor:'rgb(4,185,11)',
         paddingHorizontal:'15@s',
         paddingVertical:'2@s',
-        borderRadius:'3@s',
+        borderRadius:'2@s',
         marginBottom:'10@s',
     },
     acceptText:{
@@ -98,7 +104,7 @@ const styles = ScaledSheet.create({
         backgroundColor:'#A90A0A',
         paddingHorizontal:'15@s',
         paddingVertical:'2@s',
-        borderRadius:'3@s',
+        borderRadius:'2@s',
     },
     rejectText:{
         fontSize:'12@s',
@@ -107,6 +113,7 @@ const styles = ScaledSheet.create({
     },
     dateTextValuation:{
         marginLeft:'10@s',
+        color:'#A90A0A',
     }
 
 })

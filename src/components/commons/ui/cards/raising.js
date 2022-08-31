@@ -1,10 +1,10 @@
 import {ScaledSheet} from "react-native-size-matters";
 import {Text, View} from "react-native";
-import {convertDate, convertNumbers} from "../../../../shared/utility";
 import Google from "../../images/google";
 
 
-const Raising = () => {
+const Raising = ({round}) => {
+    console.log(round);
     return (
         <View style={styles.round}>
             <View style={styles.seedHolder}>
@@ -12,8 +12,8 @@ const Raising = () => {
                     <Google/>
                 </View>
                 <View style={styles.seedDate}>
-                    <Text style={styles.roundText}>Google</Text>
-                    <Text style={styles.dateText}>google is raising to upgrade existing system</Text>
+                    <Text style={styles.roundText}>{round.company_id.name}</Text>
+                    <Text style={styles.dateText}>{round.description}</Text>
                 </View>
             </View>
         </View>

@@ -12,7 +12,7 @@ const commonStyles =ScaledSheet.create({
         paddingRight:'34@s',
         paddingLeft:'34@s',
         justifyContent:'center',
-        paddingTop:'40@s',
+        paddingTop:'20@s',
 
     },
     formSmall:{

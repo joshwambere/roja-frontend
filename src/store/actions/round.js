@@ -47,22 +47,78 @@ export const getRounds = () => {
         axios
             .get(`/rounds`,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
-                console.log('++++++++++++++++++++++++++')
-                console.log(response.data)
                 dispatch(getRoundsSuccess(response.data));
             })
             .catch((err) => {
-                console.log('++++++++++++++++++++++++++')
-                console.log(err)
+                dispatch(createRoundFail(err.response));
+            });
+    }
+}
+export const getPendingRounds = () => {
+    return async (dispatch)=>{
+        dispatch(roundStart());
+        axios
+            .get(`/rounds?status=PENDING`,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
+            .then((response) => {
+
+                dispatch(getRoundsSuccess(response.data));
+            })
+            .catch((err) => {
+                dispatch(createRoundFail(err.response));
+            });
+    }
+}
+
+export const sendOffer=({amount, valuation,round_id})=>{
+    return async (dispatch)=>{
+        const offerData = {
+            amount:parseInt(amount),
+            valuation:parseInt(valuation),
+            round_id
+        }
+        axios
+            .post(`/offers`,offerData,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
+            .then((response) => {
+                dispatch(sendOfferSuccess(response.data));
+            })
+            .catch((err) => {
                 dispatch(createRoundFail(err.response));
             });
     }
 }
 
 
+export const getOffers=(round_id)=>{
+    return async (dispatch)=>{
+
+        axios
+            .get(`/offers/${round_id}`,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
+            .then((response) => {
+                dispatch(getOfferSuccess(response.data));
+            })
+            .catch((err) => {
+                dispatch(createRoundFail(err.response));
+            });
+    }
+}
+
 export const getRoundsSuccess = (rounds) => {
     return {
         type: actionTypes.GET_ROUNDS_SUCCESS,
         rounds: rounds?rounds:null,
+    }
+}
+
+export const sendOfferSuccess = () => {
+    return {
+        type: actionTypes.SEND_OFFER_SUCCESS,
+    }
+}
+
+
+export const getOfferSuccess = (offers) => {
+    return {
+        type: actionTypes.GET_OFFER_SUCCESS,
+        offers: offers?offers:null,
     }
 }
