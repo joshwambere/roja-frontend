@@ -37,11 +37,11 @@ const Home = ({navigation}) => {
                         <Text style={styles.roundText}>Investment Rounds</Text>
 
                 </Pressable>
-                <Pressable style={[styles.pressBtn, styles.offers]} onPress={() => navigation.navigate('offers')}>
-                    <Round />
-                    <Text style={styles.roundText}>Offers</Text>
+                {/*<Pressable style={[styles.pressBtn, styles.offers]} onPress={() => navigation.navigate('offers')}>*/}
+                {/*    <Round />*/}
+                {/*    <Text style={styles.roundText}>Offers</Text>*/}
 
-                </Pressable>
+                {/*</Pressable>*/}
             </View>
             </View>
         </View>

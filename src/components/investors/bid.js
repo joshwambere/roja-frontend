@@ -30,8 +30,6 @@ const Bid =({navigation})=>{
     }
     useEffect(()=>{
         dispatch(getOffers(round.id))
-        console.log('____________-')
-        console.log(offers)
     },[])
     return(
 
@@ -120,7 +118,7 @@ const Bid =({navigation})=>{
             <View style={styles.header}>
                 <View style={styles.headerRound}>
                     <Text style={styles.roundText}>Round</Text>
-                    <Text style={styles.equityText}>{round.amount/round.valuation} % Equity</Text>
+                    <Text style={styles.equityText}>{(round.amount/round.valuation).toFixed(3)} % Equity</Text>
                 </View>
                 <Text style={styles.valuation}>Rwf {convertNumbers(round.amount)}</Text>
                 <TouchableOpacity style={styles.bidBtn} onPress={() => setModalVisible(true)}>

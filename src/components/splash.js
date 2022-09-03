@@ -27,7 +27,7 @@ const Splash=({navigation})=>{
                 if(verified && role.role === 'INVESTOR'){
                     navigation.navigate('investorHome');
                 }else{
-                    navigation.navigate('register');
+                    navigation.navigate('login');
                 }
             }
 

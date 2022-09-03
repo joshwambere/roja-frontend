@@ -11,22 +11,21 @@ import TextInput from '../commons/ui/inputs/textInput';
 import PrimaryButton from '../commons/ui/buttons/primaryButton';
 import common from '../styles/common';
 import { ScaledSheet } from 'react-native-size-matters';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import { login } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import {getUserCompany} from "../../store/actions";
 import {useForm,Controller} from "react-hook-form";
+import {clearCompany} from "../../store/actions/company";
 
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
   const verified = useSelector((state) => state.auth.verified);
   const role = useSelector((state) => state.auth.role);
-  const company = useSelector((state) => state.company.company);
+  const token = useSelector((state) => state.auth.token);
+  const company = useSelector((state) => state.auth.company);
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       email: '',
@@ -35,24 +34,22 @@ const Login = ({ navigation }) => {
   });
 
 
-  const handleLogin = async({email, password}) => {
-    dispatch(login(email, password))
+  const handleLogin = ({email, password})=>{
+    dispatch(clearCompany())
+    dispatch(login(email, password));
   };
-  useEffect(() => {
-    dispatch(getUserCompany());
-  },[role==='ENTREPRENEUR']);
 
-  useEffect(() => {
-      if (role === 'ENTREPRENEUR') {
-        company? navigation.navigate('companyHome') : navigation.navigate('onboarding')
-      }
-      if (role === 'INVESTOR') {
+
+  useEffect(()=>{
+      if (role === 'INVESTOR' && verified) {
         navigation.navigate('investorHome');
       }
-  }, [company]);
 
+      if (role === 'ENTREPRENEUR' && verified) {
+        company? navigation.navigate('companyHome') : navigation.navigate('onboarding')
+      }
 
-
+  },[token!==null])
 
   return (
     <View style={styles.container}>

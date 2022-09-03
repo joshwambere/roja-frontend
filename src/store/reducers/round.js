@@ -10,6 +10,15 @@ const initialReducer = {
 
 };
 
+const initRound = (state, action) => {
+    return updateObject(state, {
+        round: null,
+        loading: false,
+        error: null,
+        offers:null
+    });
+}
+
 const roundStart = (state, action) => {
     return updateObject(state, {
         round: null,
@@ -61,14 +70,14 @@ const reducer = (state = initialReducer, action) => {
     switch (action.type) {
         case actionsTypes.CREATE_ROUND_SUCCESS:
             return createRoundSucess(state, action);
-        case actionsTypes.AUTH_START:
-            return roundStart(state, action);
         case actionsTypes.GET_ROUNDS_SUCCESS:
             return getRoundsSuccess(state, action);
         case actionsTypes.SEND_OFFER_SUCCESS:
             return sendOfferSuccess(state, action);
         case actionsTypes.GET_OFFER_SUCCESS:
             return getOffersSuccess(state, action);
+        case actionsTypes.INIT_ROUND:
+            return initRound(state, action);
         default:
             return state;
     }

@@ -9,6 +9,7 @@ const initialReducer = {
   role: null,
   error: null,
   loading: false,
+  company:null,
   recoverPasswordLoading: false,
   recoverPasswordSuccessMessage: null,
   recoverPasswordError: null,
@@ -26,6 +27,7 @@ const initAuth = (state, action) => {
     role: null,
     error: null,
     loading: false,
+    company:null,
     recoverPasswordLoading: false,
     recoverPasswordSuccessMessage: null,
     recoverPasswordError: null,
@@ -43,6 +45,7 @@ const authStart = (state, action) => {
     role: null,
     error: null,
     loading: true,
+    verified: false
   });
 };
 
@@ -76,12 +79,13 @@ const verifySuccess = (state, action) => {
 };
 const loginSuccess = (state, action) => {
   return updateObject(state, {
-    verified: true,
+    verified: action.verified,
     error: null,
     role: action.role,
     token: action.token,
     userId: action.userId,
-    loading: false
+    loading: false,
+    company:action.company?action.company:null
   });
 };
 

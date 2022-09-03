@@ -4,7 +4,7 @@ import Google from "../../images/google";
 
 
 const Raising = ({round}) => {
-    console.log(round);
+
     return (
         <View style={styles.round}>
             <View style={styles.seedHolder}>

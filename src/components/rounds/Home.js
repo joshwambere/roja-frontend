@@ -13,13 +13,13 @@ import {convertDate} from "../../shared/utility";
 const Home = ({navigation}) => {
     const dispatch = useDispatch();
     const rounds = useSelector((state) => state.round.rounds);
+    console.log(rounds)
 
     const handelNavigate = () => {
         navigation.navigate('createRound');
     }
     useEffect(() => {
         dispatch(getRounds());
-
     } , []);
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -33,13 +33,13 @@ const Home = ({navigation}) => {
                 </View>
                 <View style={styles.banner}>
                     <View style={styles.bannerHeader}>
-                        <Text style={styles.bannerHeaderTitle}>Valued {rounds&&  convertDate(rounds[rounds.length-1].createdAt)}</Text>
+                        <Text style={styles.bannerHeaderTitle}>Valued {rounds.length>0?convertDate(rounds[rounds.length-1].createdAt):null}</Text>
                         <TouchableOpacity style={styles.roundBtn} onPress={handelNavigate}>
                             <Text style={styles.roundText}>New Round</Text>
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <Text style={styles.bannerText}>RWF {rounds&& rounds[rounds.length-1].valuation}</Text>
+                        <Text style={styles.bannerText}>RWF {rounds.length>0? rounds[rounds.length-1].valuation:null}</Text>
                     </View>
                 </View>
                 <View style={styles.cards}>
@@ -48,7 +48,9 @@ const Home = ({navigation}) => {
                         {
                             rounds&&rounds.map((round, index) => {
                                 return(
-                                    <Round key={index} round={round}/>
+                                    <TouchableOpacity onPress={()=>{round.status==='PENDING'?navigation.navigate('offers',{round:round}):null}}>
+                                        <Round key={index} round={round}/>
+                                    </TouchableOpacity>
                                 )
                             })
                         }

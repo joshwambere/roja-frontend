@@ -5,7 +5,7 @@ import Google from "../../images/google";
 
 
 const Investment = ({offer}) => {
-    console.log(offer)
+
     return (
         <View style={styles.round}>
             <View style={styles.seedHolder}>

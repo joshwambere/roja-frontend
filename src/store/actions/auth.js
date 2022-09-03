@@ -2,6 +2,8 @@ import axios from '../../../axios-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as actionTypes from './actionTypes';
 import jwt_decode from "jwt-decode";
+import auth from "../reducers/auth";
+import {getUserCompany, getUserCompanyFail, getUserCompanySuccess} from "./company";
 
 export const initAuthReduxValues = () => {
   return {
@@ -43,7 +45,7 @@ export const verifySuccess = () => {
   };
 };
 
-export const loginSuccess = (authData) => {
+export const loginSuccess = (authData, company) => {
   AsyncStorage.setItem(
       'loginData',
       JSON.stringify({
@@ -53,13 +55,16 @@ export const loginSuccess = (authData) => {
   return {
     type: actionTypes.LOGIN_SUCCESS,
     token: authData.tokens.refreshToken,
+    verified: jwt_decode(authData.tokens?.refreshToken).verified,
     userId: jwt_decode(authData.tokens?.refreshToken).id,
     role: jwt_decode(authData.tokens?.refreshToken).role,
+    company: company.data
   };
+
 };
 
 export const authLogout = () => {
-  AsyncStorage.removeItem('userData');
+  AsyncStorage.clear();
   return {
     type: actionTypes.AUTH_LOGOUT,
   };
@@ -112,10 +117,17 @@ export const login = (email, password) => {
     axios
       .post('/auth/login', authData)
       .then((response) => {
-        dispatch(loginSuccess(response.data));
+        axios
+            .get(`/companies/founder/company`,{headers: { Authorization: `Bearer ${response.data.tokens.refreshToken}`}})
+            .then((res) => {
+              dispatch(loginSuccess(response.data,res));
+            })
+            .catch((err) => {
+              dispatch(getUserCompanyFail(err.response.data));
+            });
+
       })
       .catch((err) => {
-
         dispatch(authFail(err.response));
       });
   };

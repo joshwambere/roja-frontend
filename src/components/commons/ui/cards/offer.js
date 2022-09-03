@@ -4,7 +4,8 @@ import Up from "../../images/up";
 import {convertDate, convertNumbers} from "../../../../shared/utility";
 
 
-const Round = () => {
+const Offer = (offer) => {
+
     return (
         <View style={styles.round}>
             <View style={styles.seedHolder}>
@@ -12,11 +13,10 @@ const Round = () => {
                     <Up/>
                 </View>
                 <View style={styles.seedDate}>
-                    <Text style={styles.roundText}>John doe</Text>
+                    <Text style={styles.roundText}>{offer.offer.user_id.name}</Text>
                     <View style={styles.valuation}>
-                        <Text style={styles.dateText}>{convertNumbers(120000000)}</Text>
-
-                        <Text style={[styles.dateTextValuation,styles.dateText]}>{convertNumbers(200000000)}</Text>
+                        <Text style={styles.dateText}>{convertNumbers(offer.offer.valuation)}</Text>
+                        <Text style={[styles.dateTextValuation,styles.dateText]}>{convertNumbers(offer.offer.amount)}</Text>
                     </View>
                 </View>
             </View>
@@ -32,7 +32,7 @@ const Round = () => {
     )
 }
 
-export default Round;
+export default Offer;
 
 
 const styles = ScaledSheet.create({

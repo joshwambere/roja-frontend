@@ -28,10 +28,10 @@ function Stacks() {
             headerShown: false
         }}>
             <Stack.Screen name="Home" component={Splash} />
-            <Stack.Screen name="login" component={Login} />
             <Stack.Screen name='feed' component={homeFeed} />
             <Stack.Screen name="register" component={Register} />
             <Stack.Screen name="verify" component={Verify} />
+            <Stack.Screen name="login" component={Login} />
             <Stack.Screen name="onboarding" component={Onboarding} />
             <Stack.Screen name="company" component={CreateCompany} />
             <Stack.Screen name="companyDetails" component={CompanyDetails} />

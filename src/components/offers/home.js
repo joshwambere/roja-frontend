@@ -3,8 +3,21 @@ import {ScaledSheet} from "react-native-size-matters";
 import common from "../styles/common";
 import Google from "../commons/images/google";
 import Round from "../commons/ui/cards/offer";
+import {useEffect} from "react";
+import {getOffers, getPendingRounds} from "../../store/actions/round";
+import {useDispatch, useSelector} from "react-redux";
+import Offer from "../commons/ui/cards/offer";
 
-const Home=()=>{
+const Home=({navigation})=>{
+    const dispatch = useDispatch();
+    const offers = useSelector((state)=>state.round.offers);
+    const round = navigation.getState().routes[navigation.getState().index].params.round;
+    useEffect(()=>{
+        dispatch(getPendingRounds());
+    },[])
+    useEffect(()=>{
+        dispatch(getOffers(round.id))
+    },[round.id!==undefined])
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
@@ -15,7 +28,13 @@ const Home=()=>{
                     </View>
                 </View>
                 <View style={styles.cards}>
-                    <Round/>
+                    {
+                        offers&&offers.map((item, index) => {
+                            return(
+                                <Offer key={index} offer={item}/>
+                            )
+                        })
+                    }
                 </View>
             </View>
         </ScrollView>
