@@ -14,6 +14,7 @@ const Investment = ({offer}) => {
                 </View>
                 <View style={styles.company}>
                     <Text style={styles.companyName}>{offer.round_id.company_id.name}</Text>
+                    <Text style={styles.status}>{offer.status}</Text>
                 </View>
 
             </View>
@@ -114,6 +115,12 @@ const styles = ScaledSheet.create({
     dateTextValuation:{
         marginLeft:'10@s',
         color:'#A90A0A',
+    },
+    status:{
+        paddingLeft:'10@s',
+        paddingTop:'5@s',
+        fontWeight:'500',
+        opacity:0.6,
     }
 
 })

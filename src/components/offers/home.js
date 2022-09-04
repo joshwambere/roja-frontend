@@ -1,39 +1,63 @@
-import {ScrollView, Text, View} from "react-native";
+import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {ScaledSheet} from "react-native-size-matters";
-import common from "../styles/common";
-import Google from "../commons/images/google";
-import Round from "../commons/ui/cards/offer";
 import {useEffect} from "react";
-import {getOffers, getPendingRounds} from "../../store/actions/round";
+import {closeRound, getOffers, getPendingRounds} from "../../store/actions/round";
 import {useDispatch, useSelector} from "react-redux";
 import Offer from "../commons/ui/cards/offer";
+import NotFound from "../commons/images/notFOund";
 
 const Home=({navigation})=>{
     const dispatch = useDispatch();
     const offers = useSelector((state)=>state.round.offers);
     const round = navigation.getState().routes[navigation.getState().index].params.round;
+    const error = useSelector(state => state.round.error)
     useEffect(()=>{
         dispatch(getPendingRounds());
     },[])
+
     useEffect(()=>{
         dispatch(getOffers(round.id))
-    },[round.id!==undefined])
+    },[round.id!==undefined]);
+
+    const handelCloseRound = (round_id) => {
+        dispatch(closeRound(round_id));
+        if (!error) navigation.navigate('rounds')
+
+    }
+
+
+
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.title}>Offers</Text>
-                    <View style={common.commonStyles.profile}>
-                        <Google/>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.closeRound}
+                            onPress={()=>handelCloseRound(round.id)}
+                        >
+                            <Text style={styles.closeRoundText}>Close round</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.cards}>
                     {
-                        offers&&offers.map((item, index) => {
+                        offers && offers.map((item, index) => {
                             return(
-                                <Offer key={index} offer={item}/>
+
+                                    <Offer key={index} offer={item}/>
+
                             )
                         })
+                    }
+                    {
+                        !offers||offers.length === 0 ?
+                            <View style={styles.notFOund}>
+                                <NotFound/>
+                                <Text  style={styles.notFound}>No offer as of now Yet!, hang in there</Text>
+                            </View>
+                            :null
                     }
                 </View>
             </View>
@@ -103,5 +127,31 @@ const styles = ScaledSheet.create({
         fontSize:'18@s',
         fontWeight:'500',
         color:'#000',
+    },
+    closeRound:{
+        backgroundColor:'#A90A0A',
+        paddingHorizontal:'12@s',
+        paddingVertical:'6@s',
+        borderRadius: '3@s'
+    },
+    closeRoundText:{
+        color:'#fff',
+        fontSize:'12@s',
+        fontWeight:'500',
+    },
+    notFOund:{
+        justifyContent:'center',
+        alignItems:'center',
+        flex:1,
+        paddingTop:'30@s',
+    },
+    notFound:{
+        paddingTop:'20@s',
+        fontSize:'16@s',
+        opacity:.5,
+        maxWidth:'200@s',
+        textAlign:'center',
+        lineHeight:'25@s',
+
     }
 })

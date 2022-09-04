@@ -7,14 +7,13 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getRounds} from "../../store/actions/round";
 import {convertDate} from "../../shared/utility";
+import NotFound from "../commons/images/notFOund";
 
 
 
 const Home = ({navigation}) => {
     const dispatch = useDispatch();
     const rounds = useSelector((state) => state.round.rounds);
-    console.log(rounds)
-
     const handelNavigate = () => {
         navigation.navigate('createRound');
     }
@@ -33,26 +32,35 @@ const Home = ({navigation}) => {
                 </View>
                 <View style={styles.banner}>
                     <View style={styles.bannerHeader}>
-                        <Text style={styles.bannerHeaderTitle}>Valued {rounds.length>0?convertDate(rounds[rounds.length-1].createdAt):null}</Text>
+                        <Text style={styles.bannerHeaderTitle}>Valued {rounds && rounds.length>0?convertDate(rounds.slice(-1)[0].createdAt):null}</Text>
                         <TouchableOpacity style={styles.roundBtn} onPress={handelNavigate}>
                             <Text style={styles.roundText}>New Round</Text>
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <Text style={styles.bannerText}>RWF {rounds.length>0? rounds[rounds.length-1].valuation:null}</Text>
+                        <Text style={styles.bannerText}>RWF {rounds&&rounds.length>0? rounds.slice(-1)[0].valuation:null}</Text>
                     </View>
                 </View>
                 <View style={styles.cards}>
                     <Text style={styles.recents}>Recent Rounds</Text>
                     <View style={styles.round}>
                         {
-                            rounds&&rounds.map((round, index) => {
+                            rounds && rounds.map((round, index) => {
                                 return(
-                                    <TouchableOpacity onPress={()=>{round.status==='PENDING'?navigation.navigate('offers',{round:round}):null}}>
+                                    <TouchableOpacity key={index} onPress={()=>{round.status==='PENDING'?navigation.navigate('offers',{round:round}):null}}>
                                         <Round key={index} round={round}/>
                                     </TouchableOpacity>
                                 )
                             })
+
+                        }
+                        {
+                            !rounds||rounds.length===0?
+                                <View style={styles.notFOund}>
+                                    <NotFound/>
+                                    <Text  style={styles.notFound}>No rounds has been created yet</Text>
+                                </View>
+                                :null
                         }
                     </View>
                 </View>
@@ -122,5 +130,17 @@ const styles = ScaledSheet.create({
         fontSize:'18@s',
         fontWeight:'500',
         color:'#000',
+    },
+    notFOund:{
+        justifyContent:'center',
+        alignItems:'center',
+        flex:1,
+        paddingTop:'30@s',
+    },
+    notFound:{
+        paddingTop:'20@s',
+        fontSize:'16@s',
+        opacity:.5,
+
     }
 })

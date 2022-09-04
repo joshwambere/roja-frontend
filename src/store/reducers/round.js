@@ -1,12 +1,13 @@
 import { updateObject } from '../../shared/utility';
 import * as actionsTypes from '../actions/actionTypes';
-import * as actionTypes from "../actions/actionTypes";
+
 
 const initialReducer = {
     rounds: null,
     loading: false,
     error: null,
-    offers:null
+    offers:null,
+    recentRounds:null
 
 };
 
@@ -15,7 +16,8 @@ const initRound = (state, action) => {
         round: null,
         loading: false,
         error: null,
-        offers:null
+        offers:null,
+        recentRounds:null
     });
 }
 
@@ -38,6 +40,12 @@ const createRoundSucess =(state, action)=>{
     })
 }
 
+const closeRoundSuccess =(state, action)=>{
+    return updateObject(state,{
+        loading: false,
+        error: null,
+    })
+}
 export const getOffersSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
@@ -47,6 +55,14 @@ export const getOffersSuccess = (state, action) => {
     })
 }
 
+const getRecentRoundsSuccess =(state, action)=> {
+    return updateObject(state, {
+        loading: false,
+        error: null,
+        recentRounds: action.recentRounds,
+
+    })
+}
 const getRoundsSuccess =(state, action)=> {
     return updateObject(state, {
         loading: false,
@@ -78,6 +94,10 @@ const reducer = (state = initialReducer, action) => {
             return getOffersSuccess(state, action);
         case actionsTypes.INIT_ROUND:
             return initRound(state, action);
+        case actionsTypes.RECENT_ROUNDS_SUCCESS:
+            return getRecentRoundsSuccess(state, action);
+        case actionsTypes.CLOSE_ROUND_SUCCESS:
+            return closeRoundSuccess(state, action);
         default:
             return state;
     }

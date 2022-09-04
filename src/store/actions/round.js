@@ -78,6 +78,42 @@ export const getPendingRounds = () => {
     }
 }
 
+export const getRecentRounds = () => {
+    return async (dispatch)=>{
+        dispatch(roundStart());
+        axios
+            .get(`/rounds`,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
+            .then((response) => {
+
+                dispatch(getRecentRoundsSuccess(response.data));
+            })
+            .catch((err) => {
+                dispatch(createRoundFail(err.response));
+            });
+    }
+}
+
+export  const closeRound = (id) => {
+    return async (dispatch)=>{
+        dispatch(roundStart());
+        axios
+            .patch(`/rounds/${id}/close`,{},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
+            .then((response) => {
+                dispatch(closeRoundSuccess(response.data));
+            })
+            .catch((err) => {
+                dispatch(createRoundFail(err.response));
+            });
+    }
+}
+
+
+
+
+
+
+
+//ofers
 export const sendOffer=({amount, valuation,round_id})=>{
     return async (dispatch)=>{
         const offerData = {
@@ -112,15 +148,13 @@ export const getOffers=(round_id)=>{
 }
 
 
-//offers
-
 export const acceptOffer=(round_id)=>{
     return async (dispatch)=>{
 
         axios
             .post(`/offers/accept`,{id:round_id},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
-                dispatch(getOfferSuccess(response.data));
+                dispatch(closeRoundSuccess(response.data));
             })
             .catch((err) => {
                 dispatch(createRoundFail(err.response));
@@ -130,13 +164,29 @@ export const acceptOffer=(round_id)=>{
 
 export const rejectOffer=(round_id)=>{
     return async (dispatch)=>{
-
         axios
             .post(`/offers/reject`,{id:round_id},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
-                dispatch(getOfferSuccess(response.data));
+                dispatch(closeRoundSuccess(response.data));
             })
             .catch((err) => {
+                console.log(err);
+                dispatch(createRoundFail(err.response));
+            });
+    }
+}
+
+
+
+export const makePayment=(offer_id)=>{
+    return async (dispatch)=>{
+        axios
+            .post(`/offers/make-payment`,offer_id,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
+            .then((response) => {
+                dispatch(sendOfferSuccess(response.data));
+            })
+            .catch((err) => {
+                console.log(err);
                 dispatch(createRoundFail(err.response));
             });
     }
@@ -162,12 +212,25 @@ export const getRoundsSuccess = (rounds) => {
     }
 }
 
+export const closeRoundSuccess = ()=>{
+    return{
+        type:actionTypes.CLOSE_ROUND_SUCCESS
+    }
+}
+
+export const getRecentRoundsSuccess= (rounds) => {
+    return {
+        type: actionTypes.RECENT_ROUNDS_SUCCESS,
+        recentRounds: rounds?rounds:null,
+    }
+}
+
+
 export const sendOfferSuccess = () => {
     return {
         type: actionTypes.SEND_OFFER_SUCCESS,
     }
 }
-
 
 export const getOfferSuccess = (offers) => {
     return {

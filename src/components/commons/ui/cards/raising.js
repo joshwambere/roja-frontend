@@ -4,7 +4,6 @@ import Google from "../../images/google";
 
 
 const Raising = ({round}) => {
-
     return (
         <View style={styles.round}>
             <View style={styles.seedHolder}>
@@ -12,8 +11,8 @@ const Raising = ({round}) => {
                     <Google/>
                 </View>
                 <View style={styles.seedDate}>
-                    <Text style={styles.roundText}>{round.company_id.name}</Text>
-                    <Text style={styles.dateText}>{round.description}</Text>
+                    <Text style={styles.roundText}>{round && round.company_id.name}</Text>
+                    <Text style={styles.dateText}>{round && round.description}</Text>
                 </View>
             </View>
         </View>

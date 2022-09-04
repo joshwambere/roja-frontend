@@ -17,6 +17,7 @@ import homeFeed from "../components/feed/home";
 import homeOffers from "../components/offers/home";
 import InvestorTabs from "./investorTabs";
 import Bid from "../components/investors/bid";
+import Payment from "../payment/payment";
 
 
 
@@ -44,6 +45,7 @@ function Stacks() {
             <Stack.Screen name='offers' component={homeOffers} />
             <Stack.Screen name='investorHome' component={InvestorTabs} />
             <Stack.Screen name='bid' component={Bid} />
+            <Stack.Screen name='paypal' component={Payment} />
 
         </Stack.Navigator>
     );

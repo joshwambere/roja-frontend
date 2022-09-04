@@ -7,6 +7,8 @@ import {Controller, useForm} from "react-hook-form";
 import TextInput from "../commons/ui/inputs/textInput";
 import {useDispatch, useSelector} from "react-redux";
 import {getOffers, sendOffer} from "../../store/actions/round";
+import NotFound from "../commons/images/notFOund";
+import Paypal from "./paypal";
 
 const Bid =({navigation})=>{
     const [modalVisible, setModalVisible] = useState(false);
@@ -31,6 +33,13 @@ const Bid =({navigation})=>{
     useEffect(()=>{
         dispatch(getOffers(round.id))
     },[])
+
+    const handelPayment =(item)=>{
+        if(item.status ==='ACCEPTED'){
+            navigation.navigate('paypal', {offer:item})
+
+        }
+    }
     return(
 
         <View style={styles.container}>
@@ -135,9 +144,20 @@ const Bid =({navigation})=>{
                     {
                         offers && offers.map((offer,index)=>{
                             return(
-                                <Investment key={index} offer={offer}/>
+                                <TouchableOpacity disabled={offer.status!=='ACCEPTED'} key={index} onPress={()=>handelPayment(offer)}>
+                                     <Investment  offer={offer}/>
+                                </TouchableOpacity>
                             )
                         })
+                    }
+                    {
+                        !offers || offers.length===0?
+                            <View style={styles.notFOund}>
+                                <NotFound/>
+                                <Text  style={styles.notFound}>No offers here as of now </Text>
+                            </View>
+                            :null
+
                     }
 
                 </View>
@@ -226,6 +246,19 @@ const styles = ScaledSheet.create({
         fontSize: '16@s',
         fontWeight:'500',
     },
+    notFOund:{
+        justifyContent:'center',
+        alignItems:'center',
+        paddingTop:'30@s',
+    },
+    notFound:{
+        paddingTop:'20@s',
+        fontSize:'16@s',
+        opacity:.5,
+        color:'#000',
+    },
+
+
     //modal
 
     modal:{

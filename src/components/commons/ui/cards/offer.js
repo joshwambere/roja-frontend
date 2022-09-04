@@ -2,10 +2,23 @@ import {ScaledSheet} from "react-native-size-matters";
 import {Text, TouchableOpacity, View} from "react-native";
 import Up from "../../images/up";
 import {convertDate, convertNumbers} from "../../../../shared/utility";
+import {useDispatch} from "react-redux";
+import {acceptOffer, rejectOffer} from "../../../../store/actions/round";
 
 
 const Offer = (offer) => {
+    const dispatch = useDispatch();
 
+
+    const handelAcceptOrReject =(id, action)=>{
+        if (action==='ACCEPT'){
+            dispatch(acceptOffer(id))
+
+        }
+        if (action==='REJECT'){
+            dispatch(rejectOffer(id))
+        }
+    }
     return (
         <View style={styles.round}>
             <View style={styles.seedHolder}>
@@ -20,14 +33,27 @@ const Offer = (offer) => {
                     </View>
                 </View>
             </View>
-            <View>
-                <TouchableOpacity style={styles.roundBtnAccept}>
-                    <Text style={styles.acceptText}>Accept</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.roundBtnReject}>
-                    <Text style={styles.rejectText}>Reject</Text>
-                </TouchableOpacity>
-            </View>
+            {
+                offer.offer.status==='PENDING'?
+
+                <View>
+                    <TouchableOpacity
+                        style={styles.roundBtnAccept}
+                        onPress={()=>handelAcceptOrReject(offer.offer.id, 'ACCEPT')}
+                    >
+                     <Text style={styles.acceptText}>Accept</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.roundBtnReject}
+                        onPress={()=>handelAcceptOrReject(offer.offer.id,'REJECT')}
+                    >
+                     <Text style={styles.rejectText}>Reject</Text>
+                    </TouchableOpacity>
+                </View>
+                : <Text style={styles.statusText}>{offer.offer.status}</Text>
+
+            }
         </View>
     )
 }
@@ -93,6 +119,11 @@ const styles = ScaledSheet.create({
         fontSize:'12@s',
         fontWeight:'500',
         color:'#FFF',
+    },
+    statusText:{
+        fontSize:'12@s',
+        fontWeight:'500',
+        color:'#A90A0A',
     },
     roundBtnReject:{
         backgroundColor:'#A90A0A',
