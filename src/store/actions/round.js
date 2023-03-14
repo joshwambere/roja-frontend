@@ -1,6 +1,7 @@
 import axios from '../../../axios-base';
 import * as actionTypes from './actionTypes';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useSelector} from "react-redux";
 
 
 export const roundStart = () => {
@@ -114,7 +115,7 @@ export  const closeRound = (id) => {
 
 
 //ofers
-export const sendOffer=({amount, valuation,round_id})=>{
+export const sendOffer=({amount, valuation,round_id, offers})=>{
     return async (dispatch)=>{
         const offerData = {
             amount:parseInt(amount),
@@ -124,6 +125,9 @@ export const sendOffer=({amount, valuation,round_id})=>{
         axios
             .post(`/offers`,offerData,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
+
+                const newOffers = [...offers,response.data];
+                dispatch(getOfferSuccess(newOffers));
                 dispatch(sendOfferSuccess(response.data));
             })
             .catch((err) => {

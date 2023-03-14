@@ -64,7 +64,7 @@ const StripeApp = ({offer}) => {
         } catch (e) {
             console.log(e);
         }
-        //3.Confirm the payment with the card details
+
     };
 
     return (
@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         margin: 20,
+        backgroundColor: "#fff",
     },
     input: {
         backgroundColor: "#efefefef",

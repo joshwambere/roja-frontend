@@ -25,7 +25,7 @@ const Bid =({navigation})=>{
     });
     const handleBid = async({amount, valuation})=>{
 
-        dispatch(sendOffer({amount, valuation, round_id:round.id}))
+        dispatch(sendOffer({amount, valuation, round_id:round.id,offers}))
         if (!error){
             setModalVisible(!modalVisible);
         }

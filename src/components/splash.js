@@ -14,6 +14,9 @@ const Splash=({navigation})=>{
     const handelRegister=()=>{
         navigation.navigate('register')
     }
+    const handelLogin=()=>{
+        navigation.navigate('login')
+    }
     useEffect( () => {
         const getToken = async() => {
             const loginData = await  AsyncStorage.getItem('loginData');
@@ -49,7 +52,7 @@ const Splash=({navigation})=>{
                     </View>
                     <View style={styles.bottomBtns}>
                         <PrimaryButton style={localStyles.localBtn} title='Register' type='smallRed' navigate={handelRegister} route={'register'}/>
-                        <SecondaryButton style={localStyles.localBtn} title='Login' type='smallDark' navigate={handelRegister} route={'login'} />
+                        <SecondaryButton style={localStyles.localBtn} title='Login' type='smallDark' navigate={handelLogin} route={'login'} />
                     </View>
                 </View>
             </View>
