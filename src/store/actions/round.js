@@ -1,7 +1,6 @@
 import axios from '../../../axios-base';
 import * as actionTypes from './actionTypes';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useSelector} from "react-redux";
 
 
 export const roundStart = () => {
@@ -31,6 +30,7 @@ export const createRound = ({valuation,amount,type,description}) => {
             .post(`/rounds`,roundData,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
                 dispatch(createRoundSuccess(response.data));
+                dispatch(getRounds());
             })
             .catch((err) => {
                 console.log(err);
@@ -64,6 +64,8 @@ export const getRounds = () => {
             });
     }
 }
+
+
 export const getPendingRounds = () => {
     return async (dispatch)=>{
         dispatch(roundStart());
@@ -101,6 +103,7 @@ export  const closeRound = (id) => {
             .patch(`/rounds/${id}/close`,{},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
                 dispatch(closeRoundSuccess(response.data));
+                dispatch(getRounds());
             })
             .catch((err) => {
                 dispatch(createRoundFail(err.response));
@@ -159,6 +162,7 @@ export const acceptOffer=(round_id)=>{
             .post(`/offers/accept`,{id:round_id},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
                 dispatch(closeRoundSuccess(response.data));
+                dispatch(getOffers());
             })
             .catch((err) => {
                 dispatch(createRoundFail(err.response));
@@ -172,9 +176,9 @@ export const rejectOffer=(round_id)=>{
             .post(`/offers/reject`,{id:round_id},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
                 dispatch(closeRoundSuccess(response.data));
+                dispatch(getOffers());
             })
             .catch((err) => {
-                console.log(err);
                 dispatch(createRoundFail(err.response));
             });
     }

@@ -9,6 +9,8 @@ import {getPendingRounds} from "../../store/actions/round";
 const Home =({navigation})=>{
     const dispatch = useDispatch();
     const rounds = useSelector((state)=>state.round.rounds);
+    const username = useSelector((state) => state.auth.name);
+
     useEffect(()=>{
         dispatch(getPendingRounds());
     },[])
@@ -18,7 +20,7 @@ const Home =({navigation})=>{
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.profile}>
-                        <Text style={styles.title}>John doe</Text>
+                        <Text style={styles.title}>{username}</Text>
 
                     </View>
                     <Text style={styles.raising}>Who is raising</Text>
@@ -57,8 +59,8 @@ const styles = ScaledSheet.create({
     },
     title:{
         color:'#A90A0A',
-        fontSize: '13@s',
-        fontWeight:'500',
+        fontSize: '16@s',
+        fontWeight:'400',
         textAlign:'center',
     },
     raising:{

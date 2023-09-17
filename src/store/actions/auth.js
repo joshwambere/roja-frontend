@@ -52,13 +52,15 @@ export const loginSuccess = (authData, company) => {
         token: authData.tokens,
       })
   );
+  console.log(jwt_decode(authData.tokens?.refreshToken).username)
   return {
     type: actionTypes.LOGIN_SUCCESS,
     token: authData.tokens.refreshToken,
     verified: jwt_decode(authData.tokens?.refreshToken).verified,
     userId: jwt_decode(authData.tokens?.refreshToken).id,
     role: jwt_decode(authData.tokens?.refreshToken).role,
-    company: company.data
+    name: jwt_decode(authData.tokens?.refreshToken).username,
+    company: company
   };
 
 };
@@ -120,7 +122,7 @@ export const login = (email, password) => {
         axios
             .get(`/companies/founder/company`,{headers: { Authorization: `Bearer ${response.data.tokens.refreshToken}`}})
             .then((res) => {
-              dispatch(loginSuccess(response.data,res));
+              dispatch(loginSuccess(response.data,res.data));
             })
             .catch((err) => {
               dispatch(getUserCompanyFail(err.response.data));
