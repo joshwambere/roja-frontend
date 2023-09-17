@@ -84,6 +84,7 @@ const loginSuccess = (state, action) => {
     role: action.role,
     token: action.token,
     userId: action.userId,
+    name: action.name,
     loading: false,
     company:action.company?action.company:null
   });

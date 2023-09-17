@@ -19,10 +19,10 @@ const Verify = ({ navigation }) => {
     dispatch(verify(inputs.join('')));
   };
   useEffect(() => {
-    if (!verified) {
+    if (verified) {
       navigation.navigate('login');
     }
-  }, [verified]);
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>

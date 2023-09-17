@@ -10,6 +10,7 @@ import {clearCompany} from "../../store/actions/company";
 const Profile =({navigation})=>{
     const dispatch = useDispatch();
     const error = useSelector((state) => state.auth.error);
+    const username = useSelector((state) => state.auth.name);
     const handelLogout = ()=>{
         dispatch(authLogout());
         dispatch(clearRound());
@@ -25,7 +26,7 @@ const Profile =({navigation})=>{
                     <Google/>
                 </View>
                 <View>
-                    <Text>Mohammad reza</Text>
+                    <Text>{username}</Text>
                 </View>
             </View>
             <View>

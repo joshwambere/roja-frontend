@@ -3,7 +3,7 @@ import {ScaledSheet} from "react-native-size-matters";
 import common from "../styles/common";
 import TextInput from "../commons/ui/inputs/textInput";
 import Select2 from "react-native-select-two";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import PrimaryButton from "../commons/ui/buttons/primaryButton";
 import Google from "../commons/images/google";
 import {useDispatch, useSelector} from "react-redux";
@@ -100,36 +100,7 @@ const CreateRound=({navigation})=>{
                     />
                     {errors.amount && <Text style={styles.errors}>{errors.amount.message}</Text>}
 
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: {
-                                value: true,
-                                message: 'Round type is required'
-                            },
 
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Select2
-                                isSelectSingle
-                                style={[styles.select,styles.formInput]}
-                                colorTheme="#A90A0A"
-                                popupTitle="Round Type"
-                                title="Round Type"
-                                data={roundType}
-                                value={value[0]}
-                                selectButtonText={'Select'}
-                                cancelButtonText={'Cancel'}
-                                onSelect={value => {
-                                    onChange(value[0]);
-                                }}
-                                onRemoveItem={value => {
-                                    onChange(value[0])
-                                }}
-                            />
-                        )}
-                        name="roundCategory"
-                    />
                     {errors.roundCategory && <Text style={styles.errors}>{errors.roundCategory.message}</Text>}
 
 

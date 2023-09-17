@@ -1,11 +1,17 @@
-import {Image, View, Button, Text} from "react-native";
+import {Image, View, Text} from "react-native";
 import * as ImagePicker from 'expo-image-picker';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import SecondaryButton from "../buttons/secondaryButton";
 import {ScaledSheet} from "react-native-size-matters";
 import Upload from "../../images/upload";
+import * as FileSystem from 'expo-file-system';
+import { Video, AVPlaybackStatus } from 'expo-av';
+
+
 const ImageUploader = ()=>{
     const [photo, setPhoto] = useState(null);
+    const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/johnson-rw/upload';
+    const CLOUDINARY_UPLOAD_PRESET = 'johnson-blog';
 
 
     const pickImage = async () => {
@@ -18,6 +24,25 @@ const ImageUploader = ()=>{
 
         if (!result.cancelled) {
             setPhoto(result?.uri);
+
+            const image = await FileSystem.readAsStringAsync(result?.uri, { encoding: 'base64' })
+
+
+          let base64Img = `data:video/mp4;base64,${image}`
+            let data = {
+                "file": base64Img,
+                "upload_preset": CLOUDINARY_UPLOAD_PRESET,
+            }
+            fetch(CLOUDINARY_URL, {
+                body: JSON.stringify(data),
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'POST',
+            }).then(async r => {
+                let data = await r.json()
+                setPhoto(data.url);
+            }).catch(err => console.log(err))
         }
     };
 
@@ -38,9 +63,14 @@ const ImageUploader = ()=>{
             }
             {
              photo && (
-                 <>
-                     <Image source={{uri: photo.uri}} style={{width: 200, height: 200}} />
-                 </>
+                 <View>
+                     <Video
+                            source={{ uri: photo }}
+                      />
+
+                     <Text>{photo}</Text>
+
+                 </View>
 
                 )
             }

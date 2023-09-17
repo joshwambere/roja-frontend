@@ -34,7 +34,7 @@ const Home = ({navigation}) => {
                 <Pressable style={[styles.pressBtn,styles.offers]} onPress={() => navigation.navigate('rounds')}>
 
                         <Round />
-                        <Text style={styles.roundText}>Investment Rounds</Text>
+                        <Text style={styles.roundText}>Funding rounds</Text>
 
                 </Pressable>
                 {/*<Pressable style={[styles.pressBtn, styles.offers]} onPress={() => navigation.navigate('offers')}>*/}

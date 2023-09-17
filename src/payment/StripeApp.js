@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {makePayment} from "../store/actions/round";
 
 //ADD localhost address of your server
-const API_URL = "http://localhost:4000";
+const API_URL = "https://equity-back-end.herokuapp.com";
 
 const StripeApp = ({offer}) => {
     const [email, setEmail] = useState('');
@@ -62,9 +62,10 @@ const StripeApp = ({offer}) => {
                 }
             }
         } catch (e) {
+            console.log("-------")
             console.log(e);
         }
-        //3.Confirm the payment with the card details
+
     };
 
     return (
@@ -100,6 +101,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         margin: 20,
+        backgroundColor: "#fff",
     },
     input: {
         backgroundColor: "#efefefef",

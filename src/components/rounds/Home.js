@@ -3,7 +3,7 @@ import common from "../styles/common";
 import Google from "../commons/images/google";
 import {ScaledSheet} from "react-native-size-matters";
 import Round from "../commons/ui/cards/round";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getRounds} from "../../store/actions/round";
 import {convertDate} from "../../shared/utility";
@@ -14,6 +14,9 @@ import NotFound from "../commons/images/notFOund";
 const Home = ({navigation}) => {
     const dispatch = useDispatch();
     const rounds = useSelector((state) => state.round.rounds);
+
+    const company = useSelector((state) => state.auth.company);
+
     const handelNavigate = () => {
         navigation.navigate('createRound');
     }
@@ -25,7 +28,9 @@ const Home = ({navigation}) => {
             <View style={styles.container}>
                 <StatusBar barStyle={"dark-content"} backgroundColor={'#fff'}/>
                 <View style={styles.header}>
-                    <Text style={styles.title}>Google Inc</Text>
+                    <Text style={styles.title}>{
+                        company && company.name
+                    }</Text>
                     <View style={common.commonStyles.profile}>
                         <Google/>
                     </View>

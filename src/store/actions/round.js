@@ -30,6 +30,7 @@ export const createRound = ({valuation,amount,type,description}) => {
             .post(`/rounds`,roundData,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
                 dispatch(createRoundSuccess(response.data));
+                dispatch(getRounds());
             })
             .catch((err) => {
                 console.log(err);
@@ -63,6 +64,8 @@ export const getRounds = () => {
             });
     }
 }
+
+
 export const getPendingRounds = () => {
     return async (dispatch)=>{
         dispatch(roundStart());
@@ -100,6 +103,7 @@ export  const closeRound = (id) => {
             .patch(`/rounds/${id}/close`,{},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
                 dispatch(closeRoundSuccess(response.data));
+                dispatch(getRounds());
             })
             .catch((err) => {
                 dispatch(createRoundFail(err.response));
@@ -114,7 +118,7 @@ export  const closeRound = (id) => {
 
 
 //ofers
-export const sendOffer=({amount, valuation,round_id})=>{
+export const sendOffer=({amount, valuation,round_id, offers})=>{
     return async (dispatch)=>{
         const offerData = {
             amount:parseInt(amount),
@@ -124,6 +128,9 @@ export const sendOffer=({amount, valuation,round_id})=>{
         axios
             .post(`/offers`,offerData,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
+
+                const newOffers = [...offers,response.data];
+                dispatch(getOfferSuccess(newOffers));
                 dispatch(sendOfferSuccess(response.data));
             })
             .catch((err) => {
@@ -155,6 +162,7 @@ export const acceptOffer=(round_id)=>{
             .post(`/offers/accept`,{id:round_id},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
                 dispatch(closeRoundSuccess(response.data));
+                dispatch(getOffers());
             })
             .catch((err) => {
                 dispatch(createRoundFail(err.response));
@@ -168,9 +176,9 @@ export const rejectOffer=(round_id)=>{
             .post(`/offers/reject`,{id:round_id},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
                 dispatch(closeRoundSuccess(response.data));
+                dispatch(getOffers());
             })
             .catch((err) => {
-                console.log(err);
                 dispatch(createRoundFail(err.response));
             });
     }
