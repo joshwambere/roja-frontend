@@ -128,7 +128,6 @@ export const sendOffer=({amount, valuation,round_id, offers})=>{
         axios
             .post(`/offers`,offerData,{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
-
                 const newOffers = [...offers,response.data];
                 dispatch(getOfferSuccess(newOffers));
                 dispatch(sendOfferSuccess(response.data));
@@ -161,8 +160,8 @@ export const acceptOffer=(round_id)=>{
         axios
             .post(`/offers/accept`,{id:round_id},{headers: { Authorization: `Bearer ${JSON.parse(await AsyncStorage.getItem('loginData')).token.refreshToken}`}})
             .then((response) => {
-                dispatch(closeRoundSuccess(response.data));
                 dispatch(getOffers());
+                dispatch(closeRoundSuccess(response.data));
             })
             .catch((err) => {
                 dispatch(createRoundFail(err.response));

@@ -6,7 +6,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((request) => {
-  console.info('Request:', BACKEND_URL);
+  console.info('Requests:', BACKEND_URL);
   return request;
 });
 

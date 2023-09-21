@@ -9,7 +9,6 @@ import {acceptOffer, rejectOffer} from "../../../../store/actions/round";
 const Offer = (offer) => {
     const dispatch = useDispatch();
 
-
     const handelAcceptOrReject =(id, action)=>{
         if (action==='ACCEPT'){
             dispatch(acceptOffer(id))
@@ -28,8 +27,8 @@ const Offer = (offer) => {
                 <View style={styles.seedDate}>
                     <Text style={styles.roundText}>{offer.offer.user_id.name}</Text>
                     <View style={styles.valuation}>
-                        <Text style={styles.dateText}>{convertNumbers(offer.offer.valuation)}</Text>
-                        <Text style={[styles.dateTextValuation,styles.dateText]}>{convertNumbers(offer.offer.amount)}</Text>
+                        <Text style={styles.dateText}>Valuation: {convertNumbers(offer.offer.valuation)}</Text>
+                        <Text style={[styles.dateTextValuation,styles.dateText]}>offer: {convertNumbers(offer.offer.amount)}</Text>
                     </View>
                 </View>
             </View>
@@ -96,7 +95,7 @@ const styles = ScaledSheet.create({
         justifyContent:'center',
     },
     roundText:{
-        fontSize:'17@s',
+        fontSize:'12@s',
         fontWeight:'500',
         textTransform:'capitalize',
     },

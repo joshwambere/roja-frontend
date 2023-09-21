@@ -22,7 +22,7 @@ const Investment = ({offer}) => {
                 <View style={styles.seedDate}>
                     <View style={styles.valuation}>
                         <Text style={styles.dateText}>Rwf {convertNumbers(offer.amount)}</Text>
-                        <Text style={[styles.dateTextValuation,styles.dateText]}>{(offer.amount/offer.valuation).toFixed(3)} %</Text>
+                        <Text style={[styles.dateTextValuation,styles.dateText]}>{((offer.amount/(offer.valuation+offer.amount))*100).toFixed(2)} %</Text>
                     </View>
                 </View>
             </View>

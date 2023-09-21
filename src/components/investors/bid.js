@@ -81,7 +81,7 @@ const Bid =({navigation})=>{
                                         render={({ field: { onChange, onBlur, value } }) => (
                                             <TextInput
                                                 style={styles.formInput}
-                                                title={"Current valuation"}
+                                                title={"Your valuation"}
                                                 value={value}
                                                 onChangeText={onChange}
                                             />
@@ -106,7 +106,7 @@ const Bid =({navigation})=>{
                                         render={({ field: { onChange, onBlur, value } }) => (
                                             <TextInput
                                                 style={styles.formInput}
-                                                title={"Seed amount"}
+                                                title={"Investment amount"}
                                                 value={value}
                                                 onChangeText={onChange}
                                             />
@@ -126,10 +126,11 @@ const Bid =({navigation})=>{
             </Modal>
             <View style={styles.header}>
                 <View style={styles.headerRound}>
-                    <Text style={styles.roundText}>Round</Text>
-                    <Text style={styles.equityText}>{(round.amount/round.valuation).toFixed(3)} % Equity</Text>
+                    <Text style={styles.roundText}>Round:</Text>
+                    <Text style={styles.equityText}>{((round.amount/(round.valuation+round.amount))*100).toFixed(2)} % Equity</Text>
                 </View>
-                <Text style={styles.valuation}>Rwf {convertNumbers(round.amount)}</Text>
+                <Text style={styles.valuation}>Raising: {convertNumbers(round.amount)}</Text>
+                <Text style={styles.amount}>Valuation: {convertNumbers(round.valuation)}</Text>
                 <TouchableOpacity style={styles.bidBtn} onPress={() => setModalVisible(true)}>
                     <Text style={styles.bidText}>Bid</Text>
                 </TouchableOpacity>
@@ -202,7 +203,7 @@ const styles = ScaledSheet.create({
     },
     equityText:{
         fontSize:'13@s',
-        color:'#19191C',
+        color:'#ffffff',
         fontWeight:'500',
     },
     valuation:{
@@ -210,6 +211,12 @@ const styles = ScaledSheet.create({
         fontSize: '17@s',
         fontWeight:'500',
         color:'#fff',
+    },
+    amount:{
+    paddingVertical:'5@s',
+            fontSize: '17@s',
+            fontWeight:'500',
+            color:'#fff',
     },
     bidBtn:{
         backgroundColor:'#F1F1F1',

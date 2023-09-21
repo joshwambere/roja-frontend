@@ -23,12 +23,6 @@ const Home = ({navigation}) => {
                             <Text style={styles.investmentsText}>Investments</Text>
                         </View>
                     </Pressable>
-                    <Pressable onPress={()=>navigation.navigate('createPitch')}>
-                        <View style={[styles.investments,styles.rightGrid]}>
-                            <PercentageSmall/>
-                            <Text style={styles.investmentsText}>Pitch</Text>
-                        </View>
-                    </Pressable>
                 </View>
                 <View>
                 <Pressable style={[styles.pressBtn,styles.offers]} onPress={() => navigation.navigate('rounds')}>

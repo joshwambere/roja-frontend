@@ -42,6 +42,7 @@ export const authFail = (error) => {
 export const verifySuccess = () => {
   return {
     type: actionTypes.VERIFY_SUCCESS,
+    verified: true,
   };
 };
 

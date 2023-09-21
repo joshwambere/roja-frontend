@@ -47,6 +47,7 @@ const StripeApp = ({offer}) => {
             //2. confirm the payment
             if (error) {
                 console.log("Unable to process payment");
+                console.log(error)
 
             } else {
                 const { paymentIntent, error } = await confirmPayment(clientSecret, {
@@ -74,6 +75,7 @@ const StripeApp = ({offer}) => {
                 autoCapitalize="none"
                 placeholder="E-mail"
                 keyboardType="email-address"
+                default="default@gmail.com"
                 onChangeText={value=>setEmail(value)}
                 style={styles.input}
             />
@@ -100,8 +102,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
-        margin: 20,
-        backgroundColor: "#fff",
+        padding: 20,
+        backgroundColor: "#fff"
     },
     input: {
         backgroundColor: "#efefefef",
@@ -131,5 +133,5 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         fontSize:15
 
-    }
+    },
 });
